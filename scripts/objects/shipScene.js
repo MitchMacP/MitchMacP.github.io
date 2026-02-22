@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import { createShield } from "./reaperShield.js";
+import { galleryPaths } from "../interaction/galleryImageOptions.js";
 
 export const loadingManager = new THREE.LoadingManager();
 
@@ -94,8 +96,11 @@ function createCartridge({ name, texture, position = [0, 0, 0], rotationY = 0, p
     description: panelInfo?.description,
     imageUrl: panelInfo?.imageUrl,
     iframeUrl: panelInfo?.iframeUrl,
+    downloadLink: panelInfo?.downloadLink,
     customHtml: panelInfo?.customHtml,
-    creationDate: panelInfo?.creationDate
+    creationDate: panelInfo?.creationDate, 
+    galleryPath: panelInfo?.galleryPath,
+    smallDescription: panelInfo?.smallDescription,
   };
 
   return cartridgeMesh;
@@ -236,7 +241,7 @@ function createShowreelHologram({ name, texture, position }) {
     side: THREE.DoubleSide  
   });
 
-  const geometry = new THREE.PlaneGeometry(0.3, 0.3);
+  const geometry = new THREE.PlaneGeometry(0.3, 0.35);
 
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = name;
@@ -281,8 +286,11 @@ function createConsole({ name, texture, position, rotationY = 0, panelInfo }) {
     description: panelInfo?.description,
     imageUrl: panelInfo?.imageUrl,
     iframeUrl: panelInfo?.iframeUrl,
+    downloadLink: panelInfo?.downloadLink,
     customHtml: panelInfo?.customHtml,
-    creationDate: panelInfo?.creationDate
+    creationDate: panelInfo?.creationDate, 
+    galleryPath: panelInfo?.galleryPath,
+    smallDescription: panelInfo?.smallDescription,
   };
 
   consoleMesh.add(hoverMesh);
@@ -290,7 +298,7 @@ function createConsole({ name, texture, position, rotationY = 0, panelInfo }) {
   const showreelHologram = createShowreelHologram({
     name: "Showreel_Hologram",
     texture: "./assets/showreelHologram.png",
-    position: [0, 0.22, -0.01], 
+    position: [0, 0.23, -0.01], 
   });
 
   showreelHologram.userData.baseY = showreelHologram.position.y;
@@ -333,12 +341,15 @@ export const panels = {
   showreel: {
     title: "Sound Design Showreel",
     description: "Re-Sound Design of some popular titles, such as Batman Arkham Knight, Portal 2, and Hollow Knight.",
-    iframeUrl: "https://www.youtube.com/embed/tgbNymZ7vqY",
+    smallDescription: "My recent sound design showreel.",
+    iframeUrl: "https://www.youtube.com/embed/YRv10aHKAdA",
     creationDate: "April, 2025"
   },
   honours: {
     title: "Honours Project",
-    description: "This console shows the latest projects.",
+    description: "For my honours project, I developed an adaptive audio system for the game Lethal Company." 
+    + " This system dynamically adjusted the priority of sounds based on the player’s situational context.",
+    smallDescription: "An adaptive audio system mod for Lethal Company.",
     iframeUrl: "https://www.youtube.com/embed/LyrI1rBP9qY",
     creationDate: "March, 2025"
   },
@@ -346,34 +357,127 @@ export const panels = {
     title: "Paper Face",
     description: "Game made during the 2026 Global Game Jam."
       + "\n You are a bouncer at a masquerade ball. Use your criteria list to determine who to let into the party and who to turn away. Make sure you don't turn away the VIPs!",
+    smallDescription: "Global Game Jam entry for 2026.",
     iframeUrl: "https://www.youtube.com/embed/tgbNymZ7vqY",
-    creationDate: "February, 2026"
+    creationDate: "February, 2026",
+    downloadLink: "https://forestlf.itch.io/paperface",
   },
   byronTheBin: {
     title: "Byron The Bin",
-    description: "This console shows the latest projects.",
-    iframeUrl: "https://www.youtube.com/embed/tgbNymZ7vqY",
+    description: "Byron the Bin is an Arduino-powered bin designed to \"eat\" trash. Using an ultrasonic sensor, Byron detect when someone approaches and automatically opens his lid"
+    + " with a servo motor.",
+    smallDescription: "Arduino operated bin.",
+    iframeUrl: "https://www.youtube.com/embed/vatC9B5_HpU",
     creationDate: "May, 2023"
   },
   local58ReDesign: {
     title: "Local58 Re-sound Design",
-    description: "This is a re-sound design of the popular online series Local58.",
+    description: "In this redesign, I altered the sounds to resemble those coming through a CRT’s speaker, with audio from the videotape player occurring "
+    + "spatially on its own. This enhances immersion by making the “monster” seem to break through the speakers.",
+    smallDescription: "Sound redesigns of two episodes of Local58.",
     iframeUrl: "https://www.youtube.com/embed/Naaq5xNNFOA",
     creationDate: "December, 2024"
   },
   interningAtValdivian: {
     title: "Interning At Valdivian",
     description: "This is a short gravity puzzle game. Instead of traditional jumping, players switch gravity to navigate challenging levels, avoiding obstacles and hazards along the way",
+    smallDescription: "Gravity-based puzzle game.",
     iframeUrl: "https://www.youtube.com/embed/Naaq5xNNFOA",
-    creationDate: "January, 2023"
+    creationDate: "January, 2023", 
+    downloadLink: "https://mmac0.itch.io/interning-at-valdivian",
+    galleryPath: galleryPaths.INTERNINGATVALDIVIAN,
   },
   wildfire: {
     title: "Wildfire",
     description: "This game was created for the 2025 V&A Game Jam in dundee.",
+    smallDescription: "Game created for the V&A Game Jam in Dundee",
     iframeUrl: "https://www.youtube.com/embed/Naaq5xNNFOA",
-    creationDate: "March, 2025"
+    creationDate: "March, 2025",
+    downloadLink: "https://forestlf.itch.io/wildfire"
   },
 };
+
+function loadComputerModel(modelPath) {
+    const container = new THREE.Group();
+
+    createShield(modelPath).then((computer) => {
+        computer.scale.set(0.0005, 0.0005, 0.0005);
+        computer.rotation.y = Math.PI / 1.1;
+        computer.position.set(-0.15, -0.1, 0.5);
+
+        const computerPanelInfo = {
+            clickable: true,
+            tooltipState: tooltipState.PROJECT,
+            title: "Computer [UNLOCKED]",
+            skillTree: "",
+            creationDate: "Feb, 2026",
+            tooltipState: tooltipState.BLOG,
+        };
+
+        computer.traverse((child) => {
+            if (child.isMesh) {
+                child.userData = computerPanelInfo;
+
+                if (child.material.map) {
+                    child.material.map.magFilter = THREE.NearestFilter;
+                    child.material.map.minFilter = THREE.NearestFilter;
+                    child.material.map.needsUpdate = true;
+                }
+                child.material.transparent = false; 
+                child.material.opacity = 1.0;       
+                child.material.alphaTest = 0;
+                child.material.needsUpdate = true;
+            }
+        });
+
+        container.add(computer);
+    });
+
+    return container;
+}
+
+function loadShieldModel(modelPath) {
+    const container = new THREE.Group();
+
+    createShield(modelPath).then((shield) => {
+        shield.scale.set(0.002, 0.002, 0.002);
+        shield.rotation.y = Math.PI;
+        shield.rotation.x = Math.PI / -7;
+        shield.position.set(0.45, .05, 0.6);
+
+        // Define the data once for the whole shield
+        const shieldPanelInfo = {
+            clickable: true,
+            tooltipState: tooltipState.PROJECT,
+            title: "Reaper Shield",
+            skillTree: ['Mixing', 'Mastering', 'Asset Creation'],
+            creationDate: "Feb, 2026",
+            tooltipState: tooltipState.SKILLS,
+        };
+
+        shield.traverse((child) => {
+            if (child.isMesh) {
+                // 1. ATTACH DATA TO MESH: This is the key for Raycasting
+                child.userData = shieldPanelInfo;
+
+                // 2. PS1 STYLE: Fixed Blur & Transparency
+                if (child.material.map) {
+                    child.material.map.magFilter = THREE.NearestFilter;
+                    child.material.map.minFilter = THREE.NearestFilter;
+                    child.material.map.needsUpdate = true;
+                }
+                child.material.transparent = false; 
+                child.material.opacity = 1.0;       
+                child.material.alphaTest = 0;
+                child.material.needsUpdate = true;
+            }
+        });
+
+        container.add(shield);
+    });
+
+    return container;
+}
 
 export function createBoxes() {
   return [
@@ -447,8 +551,8 @@ export function createBoxes() {
     createBox({
       name: "spaceBackground",
       texture: "./assets/spaceBackground.png",
-      position: [0, .3, -1.1],
-      geometry: new THREE.BoxGeometry(0.1, 1.25, 2.1),
+      position: [0, .3, -1.2],
+      geometry: new THREE.BoxGeometry(0.1, 1.3, 2.3),
       rotationY: Math.PI / 2,
     }),
 
@@ -478,5 +582,7 @@ export function createBoxes() {
       rotationY: Math.PI / 2,
     }),
 
+    loadShieldModel("./assets/Models/reaperShield_V4.fbx"),
+    loadComputerModel("./assets/Models/computer.fbx"),
   ];
 } 

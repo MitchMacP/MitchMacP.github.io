@@ -12,28 +12,33 @@ export function addLighting(scene) {
   projectsLogoLight.position.set(0.3, .2, 0);
   scene.add(projectsLogoLight);
 
-const geometry = new THREE.ConeGeometry(0.2, 0.65, 10, 1, true);
+  const computerLight = new THREE.PointLight(0x0058a8, 1, 0.15);
+  computerLight.position.set(-0.09, -0.03, 0.495);
+  scene.add(computerLight);
 
-geometry.translate(0, -0.1, 0);
+  const geometry = new THREE.ConeGeometry(0.2, 0.75, 10, 1, true);
 
-const material = new THREE.MeshBasicMaterial({
-  color: 0x00ffff,
-  transparent: true,
-  opacity: 0.2,
-  side: THREE.DoubleSide,
-  blending: THREE.AdditiveBlending,
-  depthWrite: false
-});
+  geometry.translate(0, -0.1, 0);
 
-const beam = new THREE.Mesh(geometry, material);
+  const material = new THREE.MeshBasicMaterial({
+    color: 0x00ffff,
+    transparent: true,
+    opacity: 0.2,
+    side: THREE.DoubleSide,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
+  });
 
-beam.rotation.z = -Math.PI / 1;
+  const beam = new THREE.Mesh(geometry, material);
 
-beam.position.set(0, -0.39, -0.56);
+  beam.rotation.z = -Math.PI / 1;
+  beam.rotation.x = Math.PI / 12;
 
-scene.add(beam);
+  beam.position.set(0, -0.39, -0.6);
 
+  scene.add(beam);
 
+  return { computerLight } ;
 
 
 }

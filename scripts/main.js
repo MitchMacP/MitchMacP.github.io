@@ -3,13 +3,14 @@ import { createCamera } from "./core/camera.js";
 import { createScene } from "./core/scene.js";
 import { ParticleSystem } from "./particles/paperParticles.js";
 import { addLighting } from "./core/lighting.js";
-import { createBoxes, loadingManager } from "./objects/boxes.js";
+import { createBoxes, loadingManager } from "./objects/shipScene.js";
 import { initPlayerControls, setActive } from "./controls/playerControls.js";
 import { initRaycast, panelActive } from "./interaction/raycast.js";
 import { handleResize } from "./utils/resize.js";
 import { PlayerUI, playerUIActive, controlsUIState } from "./controls/playerUI.js";
 import { LoadingScreen } from "./UI/loadingScreen.js";
 import { setCursor } from "./controls/cursor.js";
+import { audioManager } from "./Audio/audioManager.js";
 import * as THREE from "three";
 
 // --- Renderer --- //
@@ -23,10 +24,13 @@ const clock = new THREE.Clock();
 setCursor(renderer);
 
 // --- Lighting --- //
-addLighting(scene);
+const lights = addLighting(scene);
 
 // --- Loading Screen --- //
 const loading = new LoadingScreen();
+
+// --- Audio --- //
+audioManager.setup(camera);
 
 // --- Player UI --- //
 const playerUI = new PlayerUI({
@@ -83,6 +87,10 @@ function animate() {
 
   particleSystem.update(delta);
 
+  if (lights.computerLight) {
+    lights.computerLight.intensity = 1.75 + Math.random() * 0.2;
+  }
+
   const move = updateControls();
   if (move) {
     console.log("Player moved:", move);
@@ -92,8 +100,7 @@ function animate() {
     else if (move == "right") {
       playerUI.animateControlsImage(controlsUIState.D_PRESSED);
     }
-    // You can also do additional things here if needed
-  }
+  }  
 
 const hologram = scene.getObjectByName("Showreel_Hologram");
 if (hologram) {
@@ -110,11 +117,13 @@ if (hologram) {
 
   renderer.render(scene, camera);
 
-  // --- Set UI State based on Panel state --- //
+  // --- Set UI state and player controls based on panel state --- //
   if (panelActive && playerUIActive) {
+    setActive(false);
     playerUI.hide();
   } else {
-    if (!panelActive && !panelActive) {  // <-- probably you meant !playerUIActive here
+    if (!panelActive && !panelActive) {  
+      setActive(true);
       playerUI.show();
     }
   }
