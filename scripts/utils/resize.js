@@ -1,7 +1,14 @@
 export function handleResize(camera, renderer) {
-  window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
+
+  function resize() {
+
+    const width = renderer.domElement.parentElement.clientWidth;
+    const height = renderer.domElement.parentElement.clientHeight;
+
+    camera.aspect = width / height;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
+  }
+
+  window.addEventListener("resize", resize);
+  resize();
 }

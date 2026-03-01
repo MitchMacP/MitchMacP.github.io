@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { createShield } from "./reaperShield.js";
-import { galleryPaths } from "../interaction/galleryImageOptions.js";
+import { tooltipState } from "../tooltipState.js";
+import { panels } from "../interaction/projectsData.js";
 
 export const loadingManager = new THREE.LoadingManager();
 
@@ -10,16 +11,7 @@ loadingManager.onLoad = () => {
   console.log("Loaded ship");
 }
 
-export const tooltipState = {
-  PROJECT: "PROJECT",
-  CV: "CV",
-  SKILLS: "SKILLS",
-  BLOG: "BLOG",
-}
-
-function createBox({ name, texture, position, geometry, rotationY = 0, rotationZ = 0, url, panelInfo, wrapRepeat, canClick = false
-  , state = tooltipState.PROJECT
-}) {
+function createBox({ name, texture, position, geometry, rotationY = 0, rotationZ = 0, url, panelInfo, wrapRepeat, canClick = false, state = tooltipState.PROJECT}) {
 
   const tex = loader.load(texture);
 
@@ -65,6 +57,7 @@ function createBox({ name, texture, position, geometry, rotationY = 0, rotationZ
 }
 
 function createCartridge({ name, texture, position = [0, 0, 0], rotationY = 0, panelInfo }) {
+  /*
   let material;
   if (texture) {
     const tex = loader.load(texture);
@@ -104,10 +97,59 @@ function createCartridge({ name, texture, position = [0, 0, 0], rotationY = 0, p
   };
 
   return cartridgeMesh;
+  */
+
+  
+    const container = new THREE.Group();
+    const scaleValue = 0.00025;
+
+    createShield("./assets/Models/gameCartridge.fbx").then((cartridge) => {
+        cartridge.scale.set(scaleValue, scaleValue, scaleValue);
+        cartridge.rotation.y = rotationY;
+        cartridge.position.set(...position);
+
+        const cartridgePanelInfo = {
+          clickable: true,
+          title: panelInfo?.title,
+          description: panelInfo?.description,
+          imageUrl: panelInfo?.imageUrl,
+          iframeUrl: panelInfo?.iframeUrl,
+          downloadLink: panelInfo?.downloadLink,
+          customHtml: panelInfo?.customHtml,
+          creationDate: panelInfo?.creationDate, 
+          galleryPath: panelInfo?.galleryPath,
+          smallDescription: panelInfo?.smallDescription,
+        };
+
+        cartridge.traverse((child) => {
+            if (child.isMesh) {
+                child.userData = cartridgePanelInfo;
+
+                if (child.material.map) {
+                    child.material.map.magFilter = THREE.NearestFilter;
+                    child.material.map.minFilter = THREE.NearestFilter;
+                    child.material.map.needsUpdate = true;
+                }
+                child.material.transparent = false; 
+                child.material.opacity = 1.0;       
+                child.material.alphaTest = 0;
+                child.material.needsUpdate = true;
+            }
+        });
+
+        container.add(cartridge);
+    });
+
+    return container;
+  
 }
 
 function createShelf(name, position) {
+
+  const tex = loader.load("./assets/wood.png");
+
   let material = new THREE.MeshStandardMaterial({
+    map: tex,
     color: 0x888888,
     flatShading: true
   });
@@ -123,7 +165,7 @@ function createShelf(name, position) {
 
 function createProjectsShelf() {
   // --- Projects Wall --- //
-  const wallTex = loader.load("./assets/concrete.png");
+  const wallTex = loader.load("./assets/wallTexture.png");
   wallTex.magFilter = THREE.NearestFilter;
   wallTex.minFilter = THREE.NearestFilter;
   wallTex.generateMipmaps = false;
@@ -154,6 +196,15 @@ function createProjectsShelf() {
     color: 0x929292
   });
 
+  const projectDisplayText = createBox({
+      name: "projectDisplayText",
+      texture: "./assets/projectDisplayObjectText.png",
+      position: [0.01, 0.2, 0],
+      geometry: new THREE.BoxGeometry(0.65, 0.085, 0.22),
+    });
+
+  projectsWall.add(projectDisplayText);
+    
 
   const displayObj = new THREE.Mesh(displayBodyGeometry, displayBodyMaterial);
   displayObj.name = "DisplayWall";
@@ -177,48 +228,48 @@ function createProjectsShelf() {
   const honoursCartridge = createCartridge({
     name: "HonoursCartidge",
     texture: "./assets/cartridge.png",
-    position: [-0.1, 0, -0.2],
-    rotationY: 0,
+    position: [-0.1, 0.015, -0.2],
+    rotationY: -7.9,
     panelInfo: panels.honours,
   });
   displayObj.add(honoursCartridge);
   const paperFaceCartridge = createCartridge({
     name: "PaperFaceCartridge",
     texture: "./assets/cartridge.png",
-    position: [-0.1, 0, -0.1],
-    rotationY: 0,
+    position: [-0.1, -0.18, 0.2],
+    rotationY: -7.9,
     panelInfo: panels.paperFace,
   });
   displayObj.add(paperFaceCartridge);
   const byronTheBinCartridge = createCartridge({
     name: "PaperFaceCartridge",
     texture: "./assets/cartridge.png",
-    position: [-0.1, 0, 0.1],
-    rotationY: 0,
+    position: [-0.1, -0.18, -0.2],
+    rotationY: -7.9,
     panelInfo: panels.byronTheBin,
   });
   displayObj.add(byronTheBinCartridge);
   const local58Cartridge = createCartridge({
     name: "Local58Cartridge",
     texture: "./assets/cartridge.png",
-    position: [-0.1, 0, 0.2],
-    rotationY: 0,
+    position: [-0.1, 0.015, 0.1],
+    rotationY: -7.9,
     panelInfo: panels.local58ReDesign,
   });
   displayObj.add(local58Cartridge);
   const interningAtValdivianCartridge = createCartridge({
     name: "Local58Cartridge",
     texture: "./assets/cartridge.png",
-    position: [-0.1, -0.2, -0.1],
-    rotationY: 0,
+    rotationY: -7.9,
+    position: [-0.1, -0.18, -0.1],
     panelInfo: panels.interningAtValdivian,
   });
   displayObj.add(interningAtValdivianCartridge);
   const wildfireCartridge = createCartridge({
     name: "WildfireCartridge",
     texture: "./assets/cartridge.png",
-    position: [-0.1, -0.2, 0.1],
-    rotationY: 0,
+    position: [-0.1, -0.18, 0.1],
+    rotationY: -7.9,
     panelInfo: panels.wildfire,
   });
   displayObj.add(wildfireCartridge);
@@ -334,76 +385,13 @@ function createTransparentWindow({ name, texture, position, geometry, rotationY 
   return windowMesh;
 }
 
-
-// dd
-export const panels = {
-  // Projects //
-  showreel: {
-    title: "Sound Design Showreel",
-    description: "Re-Sound Design of some popular titles, such as Batman Arkham Knight, Portal 2, and Hollow Knight.",
-    smallDescription: "My recent sound design showreel.",
-    iframeUrl: "https://www.youtube.com/embed/YRv10aHKAdA",
-    creationDate: "April, 2025"
-  },
-  honours: {
-    title: "Honours Project",
-    description: "For my honours project, I developed an adaptive audio system for the game Lethal Company." 
-    + " This system dynamically adjusted the priority of sounds based on the player’s situational context.",
-    smallDescription: "An adaptive audio system mod for Lethal Company.",
-    iframeUrl: "https://www.youtube.com/embed/LyrI1rBP9qY",
-    creationDate: "March, 2025"
-  },
-  paperFace: {
-    title: "Paper Face",
-    description: "Game made during the 2026 Global Game Jam."
-      + "\n You are a bouncer at a masquerade ball. Use your criteria list to determine who to let into the party and who to turn away. Make sure you don't turn away the VIPs!",
-    smallDescription: "Global Game Jam entry for 2026.",
-    iframeUrl: "https://www.youtube.com/embed/tgbNymZ7vqY",
-    creationDate: "February, 2026",
-    downloadLink: "https://forestlf.itch.io/paperface",
-  },
-  byronTheBin: {
-    title: "Byron The Bin",
-    description: "Byron the Bin is an Arduino-powered bin designed to \"eat\" trash. Using an ultrasonic sensor, Byron detect when someone approaches and automatically opens his lid"
-    + " with a servo motor.",
-    smallDescription: "Arduino operated bin.",
-    iframeUrl: "https://www.youtube.com/embed/vatC9B5_HpU",
-    creationDate: "May, 2023"
-  },
-  local58ReDesign: {
-    title: "Local58 Re-sound Design",
-    description: "In this redesign, I altered the sounds to resemble those coming through a CRT’s speaker, with audio from the videotape player occurring "
-    + "spatially on its own. This enhances immersion by making the “monster” seem to break through the speakers.",
-    smallDescription: "Sound redesigns of two episodes of Local58.",
-    iframeUrl: "https://www.youtube.com/embed/Naaq5xNNFOA",
-    creationDate: "December, 2024"
-  },
-  interningAtValdivian: {
-    title: "Interning At Valdivian",
-    description: "This is a short gravity puzzle game. Instead of traditional jumping, players switch gravity to navigate challenging levels, avoiding obstacles and hazards along the way",
-    smallDescription: "Gravity-based puzzle game.",
-    iframeUrl: "https://www.youtube.com/embed/Naaq5xNNFOA",
-    creationDate: "January, 2023", 
-    downloadLink: "https://mmac0.itch.io/interning-at-valdivian",
-    galleryPath: galleryPaths.INTERNINGATVALDIVIAN,
-  },
-  wildfire: {
-    title: "Wildfire",
-    description: "This game was created for the 2025 V&A Game Jam in dundee.",
-    smallDescription: "Game created for the V&A Game Jam in Dundee",
-    iframeUrl: "https://www.youtube.com/embed/Naaq5xNNFOA",
-    creationDate: "March, 2025",
-    downloadLink: "https://forestlf.itch.io/wildfire"
-  },
-};
-
 function loadComputerModel(modelPath) {
     const container = new THREE.Group();
 
     createShield(modelPath).then((computer) => {
         computer.scale.set(0.0005, 0.0005, 0.0005);
         computer.rotation.y = Math.PI / 1.1;
-        computer.position.set(-0.15, -0.1, 0.5);
+        computer.position.set(-0.11, -0.13, 0.5);
 
         const computerPanelInfo = {
             clickable: true,
@@ -436,31 +424,102 @@ function loadComputerModel(modelPath) {
     return container;
 }
 
+function loadContactBeaconModel(modelPath) {
+    const container = new THREE.Group();
+
+    createShield(modelPath).then((computer) => {
+        computer.scale.set(0.00175, 0.00175, 0.00175);
+        computer.rotation.y = Math.PI / 2;
+        computer.position.set(-0.8, -0.46, 0);
+
+        const computerPanelInfo = {
+            clickable: true,
+            title: "Contact Beacon [SEND MESSAGE]",
+            tooltipState: tooltipState.CONTACT,
+        };
+
+        computer.traverse((child) => {
+            if (child.isMesh) {
+                child.userData = computerPanelInfo;
+
+                if (child.material.map) {
+                    child.material.map.magFilter = THREE.NearestFilter;
+                    child.material.map.minFilter = THREE.NearestFilter;
+                    child.material.map.needsUpdate = true;
+                }
+                child.material.transparent = false; 
+                child.material.opacity = 1.0;       
+                child.material.alphaTest = 0;
+                child.material.needsUpdate = true;
+            }
+        });
+
+        container.add(computer);
+    });
+
+    return container;
+}
+
+function loadWorkstationDeskModel(modelPath) {
+    const container = new THREE.Group();
+
+    createShield(modelPath).then((computer) => {
+        computer.scale.set(0.0007, 0.0007, 0.0007);
+        computer.rotation.y = Math.PI / 1;
+        computer.position.set(-0.1, -0.30, 0.61);
+
+        computer.traverse((child) => {
+            if (child.isMesh) {
+
+                if (child.material.map) {
+                    child.material.map.magFilter = THREE.NearestFilter;
+                    child.material.map.minFilter = THREE.NearestFilter;
+                    child.material.map.needsUpdate = true;
+                }
+                child.material.transparent = false; 
+                child.material.opacity = 1.0;       
+                child.material.alphaTest = 0;
+                child.material.needsUpdate = true;
+            }
+        });
+
+        container.add(computer);
+    });
+
+    return container;
+}
+
+
 function loadShieldModel(modelPath) {
     const container = new THREE.Group();
 
     createShield(modelPath).then((shield) => {
         shield.scale.set(0.002, 0.002, 0.002);
         shield.rotation.y = Math.PI;
-        shield.rotation.x = Math.PI / -7;
-        shield.position.set(0.45, .05, 0.6);
+        shield.rotation.x = Math.PI / 7;
+        shield.position.set(0.45, -.3, 0.6);
 
-        // Define the data once for the whole shield
         const shieldPanelInfo = {
             clickable: true,
             tooltipState: tooltipState.PROJECT,
-            title: "Reaper Shield",
-            skillTree: ['Mixing', 'Mastering', 'Asset Creation'],
+            title: "Audio Production",
+            skillTree: ['Mixing', 'Mastering', 'Asset Creation', 'Foley', 'Spatial Audio'],
+            skillDescription: 
+            [
+              'I ensure everything is balanced and clear, creating space for important sounds so the mix doesn’t become muddy or cluttered.', 
+              'I make sure the final product translates well across different devices, whether it is being played through headphones or speakers.', 
+              'I have experience creating assets across various aspects of sound design, including ambience, dialogue, UI, environments, and player sounds.', 
+              'I am experienced in recording in both foley rooms and field environments, using a variety of microphones such as shotguns, condensers, and booms.', 
+              'I have experience designing 3D sound environments for both linear and non-linear media.',
+            ],
             creationDate: "Feb, 2026",
             tooltipState: tooltipState.SKILLS,
         };
 
         shield.traverse((child) => {
             if (child.isMesh) {
-                // 1. ATTACH DATA TO MESH: This is the key for Raycasting
                 child.userData = shieldPanelInfo;
 
-                // 2. PS1 STYLE: Fixed Blur & Transparency
                 if (child.material.map) {
                     child.material.map.magFilter = THREE.NearestFilter;
                     child.material.map.minFilter = THREE.NearestFilter;
@@ -478,6 +537,129 @@ function loadShieldModel(modelPath) {
 
     return container;
 }
+
+function loadUnityModel(modelPath) {
+    const container = new THREE.Group();
+
+    createShield(modelPath).then((unity) => {
+        const scaleValue = 0.0007;
+        unity.scale.set(scaleValue, scaleValue, scaleValue);
+        //unity.rotation.z = Math.PI / 6;
+        //unity.rotation.z = Math.PI / 12;
+        unity.rotation.y = Math.PI / -2;
+        unity.position.set(-0.52, -0.35, 0.65);
+
+        const shieldPanelInfo = {
+            clickable: true,
+            tooltipState: tooltipState.PROJECT,
+            title: "Game Development",
+            skillTree: ['Unity', 'Audio Implementation', 'QA & Testing', 'Group Development'],
+            skillDescription: 
+            [
+              'I ensure everything is balanced and clear, creating space for important sounds so the mix doesn’t become muddy or cluttered.', 
+              'I make sure the final product translates well across different devices, whether it is being played through headphones or speakers.', 
+              'I have experience creating assets across various aspects of sound design, including ambience, dialogue, UI, environments, and player sounds.', 
+              'I am experienced in recording in both foley rooms and field environments, using a variety of microphones such as shotguns, condensers, and booms.', 
+            ],
+            creationDate: "Feb, 2026",
+            tooltipState: tooltipState.SKILLS,
+        };
+
+        unity.traverse((child) => {
+            if (child.isMesh) {
+                child.userData = shieldPanelInfo;
+
+                if (child.material.map) {
+                    child.material.map.magFilter = THREE.NearestFilter;
+                    child.material.map.minFilter = THREE.NearestFilter;
+                    child.material.map.needsUpdate = true;
+                }
+                child.material.transparent = false; 
+                child.material.opacity = 1.0;       
+                child.material.alphaTest = 0;
+                child.material.needsUpdate = true;
+            }
+        });
+
+        container.add(unity);
+    });
+
+    return container;
+}
+
+function loadDisplayTitleModel(modelPath) {
+    const container = new THREE.Group();
+
+    createShield(modelPath).then((computer) => {
+        computer.scale.set(0.0006, 0.0006, 0.0006);
+        computer.rotation.y = Math.PI / -2;
+        computer.position.set(0.45, 0.2, 0);
+
+        computer.traverse((child) => {
+            if (child.isMesh) {
+
+                if (child.material.map) {
+                    child.material.map.magFilter = THREE.NearestFilter;
+                    child.material.map.minFilter = THREE.NearestFilter;
+                    child.material.map.needsUpdate = true;
+                }
+                child.material.transparent = false; 
+                child.material.opacity = 1.0;       
+                child.material.alphaTest = 0;
+                child.material.needsUpdate = true;
+            }
+        });
+
+        container.add(computer);
+    });
+
+    return container;
+}
+
+function loadUMLPosterBox({ geometry, position }) {
+  const tex = loader.load("./assets/workStationBackground.png");
+
+  tex.magFilter = THREE.NearestFilter;
+  tex.minFilter = THREE.NearestFilter;
+  tex.generateMipmaps = false;
+
+
+  const material = new THREE.MeshStandardMaterial({
+    map: tex,
+    color: 0x929292
+  });
+
+  const poster = new THREE.Mesh(geometry, material);
+  poster.name = "Poster";
+  poster.position.set(...position);
+  poster.rotation.y = Math.PI / -2;
+
+  const posterPanelInfo = {
+    clickable: true,
+    tooltipState: tooltipState.PROJECT,
+    title: "Programming",
+    skillTree: ['C#', 'Python', 'Java', 'Debugging', 'Web Development', 'Databases'],
+    skillDescription: 
+    [
+      'I have used C# for .NET projects and Unity development. This has included game jams, group projects, and personal projects', 
+      'I have used python for creating local web servers, and terminal apps.',
+      'I have good knowledge in Java, primarily creating applications using Window Builder Pro.',
+      'I have experience debugging coding issues through my experience as a student demonstrator and group projects. This also includes recording and prioritising certain bugs',
+      'I have good knowledge in Javascript, PHP, HTML, and CSS, creating great web experiences',
+      'I have experience using SQL in platforms such as PHPMyAdmin and linux server environments.',
+    ],
+    creationDate: "Feb, 2026",
+    tooltipState: tooltipState.SKILLS,
+  };
+
+  poster.userData.clickable = true;
+  poster.userData = posterPanelInfo;
+
+
+  return poster;
+}
+
+
 
 export function createBoxes() {
   return [
@@ -567,7 +749,7 @@ export function createBoxes() {
       name: "JobApplication",
       texture: "./assets/jobApplication.png",
       position: [-0.6, -0.35, -0.4],
-      geometry: new THREE.BoxGeometry(0.1875, 0.001, 0.3),
+      geometry: new THREE.BoxGeometry(0.1375, 0.001, 0.25),
       rotationY: Math.PI / 8,
       wrapRepeat: [1, 1],
       canClick: true,
@@ -575,14 +757,59 @@ export function createBoxes() {
     }),
 
     createBox({
-      name: "ToolRack",
-      texture: "./assets/workStationBackground.png",
-      position: [0.3, 0.055, 0.79],
-      geometry: new THREE.BoxGeometry(0.01, .25, .25),
-      rotationY: Math.PI / 2,
+      name: "JobApplication2",
+      texture: "./assets/jobApplication.png",
+      position: [-0.6, -0.34, -0.5],
+      geometry: new THREE.BoxGeometry(0.1375, 0.001, 0.25),
+      rotationY: Math.PI / 4,
+      wrapRepeat: [1, 1],
+      canClick: true,
+      state: tooltipState.CV
     }),
+
+    createBox({
+      name: "JobApplication3",
+      texture: "./assets/jobApplication.png",
+      position: [0.45, -0.34, -0.6],
+      geometry: new THREE.BoxGeometry(0.1375, 0.001, 0.2),
+      rotationY: Math.PI / 4,
+      wrapRepeat: [1, 1],
+      canClick: true,
+      state: tooltipState.CV
+    }),
+
+    createBox({
+      name: "JobApplication4",
+      texture: "./assets/jobApplication.png",
+      position: [0.4, -0.35, -0.6],
+      geometry: new THREE.BoxGeometry(0.1375, 0.001, 0.2),
+      rotationY: Math.PI / 2,
+      wrapRepeat: [1, 1],
+      canClick: true,
+      state: tooltipState.CV
+    }),
+
+    createBox({
+      name: "JobApplication5",
+      texture: "./assets/jobApplication.png",
+      position: [0.22, -0.35, 0.65],
+      geometry: new THREE.BoxGeometry(0.1375, 0.001, 0.2),
+      rotationY: Math.PI / 12,
+      wrapRepeat: [1, 1],
+      canClick: true,
+      state: tooltipState.CV
+    }),
+
 
     loadShieldModel("./assets/Models/reaperShield_V4.fbx"),
     loadComputerModel("./assets/Models/computer.fbx"),
+    loadWorkstationDeskModel("./assets/Models/workstationDesk.fbx"),
+    loadDisplayTitleModel("./assets/Models/displayTitle.fbx"), 
+    loadContactBeaconModel("./assets/Models/contactBeacon.fbx"),
+    loadUnityModel("./assets/Models/UnityLogo.fbx"),
+    loadUMLPosterBox({
+      geometry: new THREE.BoxGeometry(0.01, .25, .25),
+      position: [0.3, 0.055, 0.79],
+    }),
   ];
 } 

@@ -21,7 +21,9 @@ export const galleryPaths = {
         './assets/projectScreenshots/interningAtValdivian/img04.png',        
     ],
     WILFIRE: [
-
+        './assets/projectScreenshots/wildfire/img01.png',
+        './assets/projectScreenshots/wildfire/img02.png',
+        './assets/projectScreenshots/wildfire/img03.png',
     ],
 };
 

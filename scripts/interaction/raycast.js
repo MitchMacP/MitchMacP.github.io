@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { tooltipState } from "../objects/shipScene.js";
+import { tooltipState } from "../tooltipState.js";
 import { createGallery } from "./screenshotGallery.js";
 import { galleryPaths } from "./galleryImageOptions.js";
 
@@ -11,20 +11,33 @@ let disableTooltip = false;
 let defaultTooltipXPos = 145;
 let defaultTooltipYPos = 35;
 
-export function initRaycast(camera, objects) {
+const mouseSide = {
+  LEFT: "Left",
+  RIGHT: "Right",
+}
+
+export function initRaycast(camera, objects, renderer) {
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
+  let currentSkillIndex = 0;
 
-  function updateMouse(event) {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  }
+function updateMouse(event) {
+  const rect = renderer.domElement.getBoundingClientRect();
+
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+
+  mouse.x = (x / rect.width) * 2 - 1;
+  mouse.y = -(y / rect.height) * 2 + 1;
+}
 
   function onHoverEnter(object) {
   }
 
   function onHoverExit(object) {
   }
+
+  let currentMouseSide = mouseSide.LEFT;
 
   const tooltip = document.createElement("div");
   tooltip.id = "ToolTip";
@@ -49,8 +62,8 @@ export function initRaycast(camera, objects) {
   backgroundPanel.style.display = "none";
   backgroundPanel.style.pointerEvents = "all";
   backgroundPanel.addEventListener("click", (e) => {
-  e.stopPropagation(); 
-});
+    e.stopPropagation();
+  });
 
   document.body.appendChild(backgroundPanel);
 
@@ -77,9 +90,9 @@ export function initRaycast(camera, objects) {
   }
 
   async function closePanel() {
-    panel.classList.add("glitchOut");    
-    await sleep(250);                 
-    panel.classList.remove("glitchOut"); 
+    panel.classList.add("glitchOut");
+    await sleep(250);
+    panel.classList.remove("glitchOut");
     content.innerHTML = "";
     backgroundPanel.style.display = "none";
     panelActive = false;
@@ -114,17 +127,17 @@ export function initRaycast(camera, objects) {
   panel.appendChild(content);
 
   function createPanelTemplate(data) {
-  let html;
-  panel.style.width = "60vw";
-  panel.style.height = "85vh";
+    let html;
+    panel.style.width = "60vw";
+    panel.style.height = "85vh";
 
-  switch (data.state) {
-    case tooltipState.PROJECT:
-      html = `
+    switch (data.state) {
+      case tooltipState.PROJECT:
+        html = `
         <div class="tab">
-          <button class="tablinks active" tab-data="general"><p>General</p></button>
-          <button class="tablinks" tab-data="screenshots"><p>Screenshots</p></button>
-          <button class="tablinks" tab-data="extras"><p>Extras</p></button>
+          <button class="tablinks active" tab-data="general"><p>General [1]</p></button>
+          <button class="tablinks" tab-data="screenshots"><p>Screenshots [2]</p></button>
+          <button class="tablinks" tab-data="extras"><p>Extras [3]</p></button>
         </div>
 
         <div id="general" class="tab-content panel_general_div" >
@@ -135,15 +148,15 @@ export function initRaycast(camera, objects) {
             ${data.description || "No Description"}
           </p>
           
-        ${data.iframeUrl ? 
-          `<iframe 
+        ${data.iframeUrl ?
+            `<iframe 
               id="youtubeFrame" 
               src="${data.iframeUrl}?autoplay=1" 
               style="width:60%; height:25vh; border: 2px solid cyan; margin-top: 20px;"
               data-src="${data.iframeUrl}?autoplay=1">
-          </iframe>` 
-          : ''
-        }
+          </iframe>`
+            : ''
+          }
         </div> 
         <div id="screenshots" class="tab-content" style="display: none; flex-direction: column; align-items: center;">
           <h1 class="panel_h1">Additional Screenshots</h1>
@@ -151,65 +164,83 @@ export function initRaycast(camera, objects) {
         </div>
 
         <div id="extras" class="tab-content" style="display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-          ${data.downloadLink ? 
+          ${data.downloadLink ?
             `
-            <p class="panel_p">You can download the project here:</p>
+            <h1 class="panel_h2">Download / View project page:</h1>
             <a href="${data.downloadLink}" target="_blank">
-              <button style="padding: 10px 20px; font-family: 'VT_Font'; cursor: pointer; background: rgba(0, 255, 255, 0.2); border: 2px solid cyan; color: white;">
+              <button class="panel_button">
                 Visit Itch.io Page
               </button>
-            </a>` 
+            </a>`
             : (data.customHtml || "<p class='panel_p' style='margin-top: 50px;'>No Extras</p>")
           }
         </div>
       `;
-      break;
-    case tooltipState.CV:
-      panel.style.width = "40vw";
-      panel.style.height = "40vh";
-      html = `
+        break;
+      case tooltipState.CV:
+        panel.style.width = "30vw";
+        panel.style.height = "35vh";
+        html = `
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-          <h1>Do you want to download my CV?</h1>
+          <h1>Download my CV.</h1>
           <a href="./assets/cv/MitchellMacPherson_CV.pdf" target="_blank">
-            <button class="panel_button"><p class="tooltip_paragraph">Download</p></button>
+            <button class="panel_button"><p class="tooltip_paragraph">Open [↗]</p></button>
           </a>
         </div>`;
-      break;
-    case tooltipState.BLOG:
-      html = `<p>test</p>`
-      break;
+        break;
+      case tooltipState.BLOG:
+        panel.style.width = "30vw";
+        panel.style.height = "35vh";
+        html = `<h1>Blog coming soon...</h1>`
+        break;
+      case tooltipState.CONTACT:
+        html = `
+        <div">
+            <form class="panel_contact_form" id="contactForm">
+              <h1>Send Message</h1>
+              <input type="hidden" name="_subject" value="Website Contact Form">
+              <label class="panel_contact_label">Your email:</label>
+              <input type="email" name="email" required>
+              <label class="panel_contact_label"> Your message:</label>
+              <textarea name="message" required></textarea>
+              <button class="panel_button" type="submit">Send</button>
+            </form>
+            <div id="contactStatus" style="margin-top: 10px; color: #fff;"></div>
+        </div>
+        `;
+        break;
 
-    default:
-      html = `<h1>ERROR: Incorrect State Assigned</h1>`;
+      default:
+        html = `<h1>ERROR: Incorrect State Assigned</h1>`;
+    }
+
+    return html;
   }
 
-  return html;
-}
+  function switchTabs(tabName) {
+    const allTabs = content.querySelectorAll(".tab-content");
+    const youtubeFrame = document.getElementById("youtubeFrame");
 
-function switchTabs(tabName) {
-  const allTabs = content.querySelectorAll(".tab-content");
-  const youtubeFrame = document.getElementById("youtubeFrame");
+    if (youtubeFrame) {
+      if (tabName === "general") {
+        youtubeFrame.src = youtubeFrame.dataset.src;
+      } else {
+        youtubeFrame.src = "";
+      }
+    }
 
-  if (youtubeFrame) {
-    if (tabName === "general") {
-      youtubeFrame.src = youtubeFrame.dataset.src;
-    } else {
-      youtubeFrame.src = "";
+    allTabs.forEach(tab => {
+      tab.style.display = "none";
+    });
+
+    const activeTab = content.querySelector(`#${tabName}`);
+    if (activeTab) {
+      activeTab.style.display = "flex";
+      activeTab.classList.add("glitch");
+
+      setTimeout(() => activeTab.classList.remove("glitch"), 100);
     }
   }
-
-  allTabs.forEach(tab => {
-    tab.style.display = "none";
-  });
-
-  const activeTab = content.querySelector(`#${tabName}`);
-  if (activeTab) {
-    activeTab.style.display = "flex"; 
-    activeTab.classList.add("glitch");
-
-    setTimeout(() => activeTab.classList.remove("glitch"), 100);
-  }
-}
 
   function showPanel(object) {
     const panelData = {
@@ -234,7 +265,7 @@ function switchTabs(tabName) {
     panel.classList.add("glitchIn");
     setTimeout(() => panel.classList.remove("glitchIn"), 250);
 
-    const tabButtons = content.querySelectorAll(".tab button"); 
+    const tabButtons = content.querySelectorAll(".tab button");
     tabButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         tabButtons.forEach(b => b.classList.remove("active"));
@@ -244,6 +275,37 @@ function switchTabs(tabName) {
         switchTabs(tabName);
       });
     });
+
+    const contactForm = content.querySelector("#contactForm");
+    if (contactForm) {
+      const status = content.querySelector("#contactStatus");
+
+      contactForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(contactForm);
+
+        try {
+          const response = await fetch("https://formspree.io/f/xeelwlod", {
+            method: "POST",
+            body: formData,
+            headers: { "Accept": "application/json" }
+            });
+
+            if (response.ok) {
+              contactForm.reset(); 
+              closePanel();
+            } else {
+              const data = await response.json();
+              status.textContent = data.error || "Oops! Something went wrong.";
+            }
+          } catch (err) {
+            status.textContent = "Oops! Something went wrong.";
+            console.error(err);
+          }
+        });
+      }
+
   }
 
   // --- TOOLTIP --- //
@@ -268,26 +330,46 @@ function switchTabs(tabName) {
       case tooltipState.CV:
         html = `
         <div class="tooltip_inner_div">
-          <h1 class="tooltip_header">Download CV</h1>
+          <h1 class="tooltip_header">My CV</h1>
         </div>
         `;
         break;
       case tooltipState.SKILLS:
         tooltip.style.width = "50vw";
+        currentSkillIndex = 0;
         html = `
-        <div class="tooltip_inner_div">
-          <h1 class="tooltip_header">${data.title}</h1>
-          <ul>
-            ${data.skillTree ? data.skillTree.map(skill => `<li>${skill}</li>`).join('') : ""}
-          </ul>  
+        <div class="tooltip_skills_div">
+          <div class="tooltip_skills_left">
+            <h1 class="tooltip_skills_h1">Skills</h1>
+            <ul id="skillsList">
+              ${data.skillTree 
+                ? data.skillTree.map((skill, index) =>
+                    `<li class="tooltip_skills_list${index === currentSkillIndex ? ' active-skill' : ''}">${index === currentSkillIndex ? '>> ' + skill + ' <<' : skill}</li>`
+                  ).join('')
+                : ""}
+            </ul>
+        </div>
+        <div class="tooltip_skills_right">
+          <h1 class="tooltip_skills_title">${data.skillTree[currentSkillIndex]}</h1>
+          <hr class="tooltip_skills_hr">
+          <p class="tooltip_skills_description">
+            ${data.skillDescription[currentSkillIndex] || ""}
+          </p>
+        </div>
         </div>`;
         break;
       case tooltipState.BLOG:
         html = `
         <div class="tooltip_inner_div">
           <h1 class="tooltip_header">${data.title}</h1>
-        </div>
-        `;
+        </div>`;
+        break;
+      case tooltipState.CONTACT:
+        html = `
+        <div class="tooltip_inner_div">
+          <h1 class="tooltip_header">${data.title}</h1>
+        </div>`;
+        break;
     }
 
     return html;
@@ -295,22 +377,39 @@ function switchTabs(tabName) {
 
   function showTooltip(object) {
     if (!disableTooltip) {
-      const tooltipData = {
+
+      const tooltipData =
+      {
         title: object.userData.title || object.name,
         description: object.userData.description || object.userData.info,
         smallDescription: object.userData.smallDescription,
         creationDate: object.userData.creationDate,
         skillTree: object.userData.skillTree,
+        skillDescription: object.userData.skillDescription,
       };
 
       const state = object.userData.tooltipState || tooltipState.PROJECT;
 
       tooltip.innerHTML = createTooltipTemplate(tooltipData, state);
       tooltip.style.display = "inline-block";
+
+      if (state === tooltipState.SKILLS) {
+        if (currentMouseSide == mouseSide.RIGHT) {
+          defaultTooltipXPos = 725;
+        } else {
+          defaultTooltipXPos = -75;
+        }
+        defaultTooltipYPos = -100;
+      }
+      else {
+        defaultTooltipXPos = 145;
+        defaultTooltipYPos = 35;
+      }
+
       tooltipActive = true;
+
     }
   }
-
 
   function hideTooltip() {
     tooltip.innerHTML = "";
@@ -318,9 +417,46 @@ function switchTabs(tabName) {
     tooltipActive = false;
   }
 
-  // --- MOUSE LISTENERS --- //
 
+  // --- MOUSE LISTENERS --- //
   window.addEventListener("click", (e) => {
+    if (hoveredObject && 
+        hoveredObject.userData.tooltipState === tooltipState.SKILLS &&
+        tooltipActive) {
+
+      const descriptions = hoveredObject.userData.skillDescription;
+      const titles = hoveredObject.userData.skillTree;
+
+      if (descriptions && descriptions.length > 0) {
+        currentSkillIndex = (currentSkillIndex + 1) % descriptions.length;
+
+        const titleElement = tooltip.querySelector(".tooltip_skills_title");
+        if (titleElement) {
+          titleElement.textContent = titles[currentSkillIndex];
+        }
+
+        const descElement = tooltip.querySelector(".tooltip_skills_description");
+        if (descElement) {
+          descElement.textContent = descriptions[currentSkillIndex];
+        }
+      }
+
+      const skillItems = tooltip.querySelectorAll(".tooltip_skills_list");
+
+      skillItems.forEach((item, index) => {
+        const skillName = hoveredObject.userData.skillTree[index];
+
+        if (index === currentSkillIndex) {
+          item.textContent = ">> " + skillName + " <<";
+        } else {
+          item.textContent = skillName;
+        }
+      });
+
+      return; 
+    }
+
+
     updateMouse(e);
     raycaster.setFromCamera(mouse, camera);
 
@@ -338,14 +474,36 @@ function switchTabs(tabName) {
     }
   });
 
+
   window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && panelActive) {
-      closePanel();
+    if (panelActive) {
+      switch (event.key) {
+        case "Escape":
+          closePanel();
+          break;
+        case "1":
+          switchTabs("general");
+          content.querySelectorAll(".tab button").forEach(b => {
+            b.classList.toggle("active", b.getAttribute("tab-data") === "general");
+          });
+          break;
+        case "2":
+          switchTabs("screenshots");
+          content.querySelectorAll(".tab button").forEach(b => {
+            b.classList.toggle("active", b.getAttribute("tab-data") === "screenshots");
+          });
+          break;
+        case "3":
+          switchTabs("extras");
+          content.querySelectorAll(".tab button").forEach(b => {
+            b.classList.toggle("active", b.getAttribute("tab-data") === "extras");
+          });
+          break;
+      }
     }
   });
 
   window.addEventListener("mousemove", function (e) {
-
     updateMouse(e);
     raycaster.setFromCamera(mouse, camera);
 
@@ -360,26 +518,23 @@ function switchTabs(tabName) {
       }
     }
 
-    // Hover Enter
     if (newHovered !== null && hoveredObject !== newHovered) {
 
       if (hoveredObject !== null) {
-        onHoverExit(hoveredObject); // leave previous
+        onHoverExit(hoveredObject); 
       }
 
       hoveredObject = newHovered;
       showTooltip(hoveredObject);
-      onHoverEnter(hoveredObject); // enter new
+      onHoverEnter(hoveredObject); 
     }
 
-    // Hover Leave (nothing hovered anymore)
     if (newHovered === null && hoveredObject !== null) {
       hideTooltip();
       onHoverExit(hoveredObject);
       hoveredObject = null;
     }
 
-    // Cursor change (no ternary)
     if (newHovered !== null) {
       document.body.style.cursor = "pointer";
     } else {
@@ -390,5 +545,16 @@ function switchTabs(tabName) {
       tooltip.style.left = e.clientX - defaultTooltipXPos + "px";
       tooltip.style.top = e.clientY - tooltip.offsetHeight - defaultTooltipYPos + "px";
     }
+
+    const middle = this.innerWidth / 2;
+    if (e.clientX < middle) {
+      currentMouseSide = mouseSide.LEFT;
+    } else {
+      currentMouseSide = mouseSide.RIGHT;
+    }
   });
+
+  return {
+    hideTooltip: hideTooltip
+  };
 }

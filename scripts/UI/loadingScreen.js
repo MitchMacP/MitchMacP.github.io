@@ -7,6 +7,7 @@ const loadingTips = [
 
 export class LoadingScreen {
   constructor() {
+
     const loadingScreen = document.createElement("div");
     loadingScreen.id = "loadingScreen";
     loadingScreen.style.position = "fixed";
