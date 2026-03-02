@@ -559,7 +559,7 @@ function loadUnityModel(modelPath) {
               'I have been using the Unity game engine for the past 10 years. I\'m experienced using its audio, animation, timeline, UI systems, and more, to create game projects.', 
               'I have used both Unity’s built-in API and Wwise to implement audio across multiple types of games, assisting both non-audio team members and fellow sound designers.',
               'I spent my internship at Build A Rocket Boy playtesting and reporting bugs for their game, EVERYWHERE. Additionally, I worked as a student demonstrator, debugging students’ game projects.',
-              'I am experienced in recording in both foley rooms and field environments, using a variety of microphones such as shotguns, condensers, and booms.', 
+              '', 
             ],
             creationDate: "Feb, 2026",
             tooltipState: tooltipState.SKILLS,

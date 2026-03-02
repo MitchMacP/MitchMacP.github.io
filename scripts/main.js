@@ -73,7 +73,8 @@ else {
   }
   loadingManager.onLoad = async () => {
     await wait(5000);
-    loading.hide();
+    //loading.hide();
+    loading.showContinueButton();
     await wait(250);
     setActive(true);
     playerUI.show();

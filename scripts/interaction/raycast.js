@@ -63,8 +63,9 @@ function updateMouse(event) {
   tooltip.style.position = "fixed";
   tooltip.style.width = "25vw";
   tooltip.style.height = "fit-content";
-  tooltip.style.background = "rgba(103, 159, 202, 0.6)";
+  tooltip.style.background = "rgba(103, 159, 202, 0.9)";
   tooltip.style.outline = "solid 2px cyan";
+  tooltip.style.zIndex = "10000";
   document.body.appendChild(tooltip);
   tooltip.style.display = "none";
 
@@ -415,14 +416,15 @@ function updateMouse(event) {
 
       if (state === tooltipState.SKILLS) {
         if (currentMouseSide == mouseSide.RIGHT) {
-          defaultTooltipXPos = 725;
-        } else {
           defaultTooltipXPos = -75;
+          defaultTooltipYPos = -350;
+        } else {
+          defaultTooltipXPos = 75;
+          defaultTooltipYPos = -250;
         }
-        defaultTooltipYPos = -100;
       }
       else {
-        defaultTooltipXPos = 145;
+        defaultTooltipXPos = 75;
         defaultTooltipYPos = 35;
       }
 
@@ -564,17 +566,21 @@ function updateMouse(event) {
       document.body.style.cursor = "default";
     }
 
-    if (tooltipActive && !disableTooltip) {
-      tooltip.style.left = e.clientX - defaultTooltipXPos + "px";
-      tooltip.style.top = e.clientY - tooltip.offsetHeight - defaultTooltipYPos + "px";
-    }
-
-    const middle = this.innerWidth / 2;
+    const middle = window.innerWidth / 2;
     if (e.clientX < middle) {
       currentMouseSide = mouseSide.LEFT;
     } else {
       currentMouseSide = mouseSide.RIGHT;
     }
+
+    if (tooltipActive && !disableTooltip) {
+      const maxX = window.innerWidth - tooltip.offsetWidth - 20;
+      const maxY = window.innerHeight - tooltip.offsetHeight + 30;
+
+      tooltip.style.left = Math.min(e.clientX + defaultTooltipXPos, maxX) + "px";
+      tooltip.style.top = Math.min(e.clientY + defaultTooltipYPos, maxY) + "px";
+    }
+
   });
 
   return {

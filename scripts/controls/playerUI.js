@@ -132,6 +132,7 @@ export class PlayerUI {
     this.root.appendChild(this.audioToggleButton);
 
   }
+  
 
   // Set bottom-left image
   setImage(src) {
@@ -169,6 +170,7 @@ switchControl(isMuted) {
     this.audioToggleButton.style.backgroundImage = `url(./assets/audioToggle/unmuted.png)`;
   }
 }
+
 
 
 animateControlsImage(state) {
@@ -213,4 +215,7 @@ animateControlsImage(state) {
   assignMuteButton(callback) {
     this.audioToggleButton.addEventListener("click", callback);
   }
+
+  
 }
+

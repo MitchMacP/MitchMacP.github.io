@@ -478,3 +478,17 @@ div.gallery-item div.desc {
     background-color: white;               
     width: 70%;                
 }
+
+/* --- Loading Screen --- */
+.continueButton {
+  font-family: "VT_Font";
+  color: white;
+  background-color: transparent;
+  font-size: 27pt;
+  font-weight: bold;
+}
+
+.continueButton:hover {
+  background-color: white;
+  color: rgba(103, 136, 162, 1);
+}
