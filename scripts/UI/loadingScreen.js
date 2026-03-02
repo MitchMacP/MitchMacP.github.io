@@ -1,3 +1,5 @@
+import { muteAudio, activeListener } from "../Audio/audioManager.js";
+
 const loadingTips = [
   "Tip: Try clicking the console.",
   "Tip: Cartridges contain previous projects.",
@@ -17,7 +19,7 @@ export class LoadingScreen {
     loadingScreen.style.height = "100vh";
     loadingScreen.style.background = 'url("./assets/loadingScreenBackground.png") no-repeat center';
     loadingScreen.style.backgroundSize = "100% auto"; 
-    loadingScreen.style.zIndex = "11";
+    loadingScreen.style.zIndex = "10000";
     document.body.appendChild(loadingScreen);
 
     const topOverlay = document.createElement("div");
@@ -39,21 +41,21 @@ export class LoadingScreen {
     bottomOverlay.style.backgroundColor = "rgba(103, 136, 162, 1)"; 
     loadingScreen.appendChild(bottomOverlay);
 
-    const paragraph = document.createElement("p");
+    this.paragraph = document.createElement("p");
     const randomTipIndex = Math.floor(Math.random() * loadingTips.length);
-    paragraph.textContent = loadingTips[randomTipIndex];
-    paragraph.style.position = "absolute";
-    paragraph.style.width = "auto";
-    paragraph.style.textAlign = "justify";
-    paragraph.style.bottom = "-10px";
-    paragraph.style.left = "10px";
-    paragraph.style.fontSize = "20pt";
-    paragraph.style.color = "#fff";
-    paragraph.style.border = "2px solid #fff"; 
-    paragraph.style.borderRadius = "1px";
-    paragraph.style.padding = "10px 15px";
-    paragraph.style.background = "rgba(0,0,0,0.3)"; 
-    loadingScreen.appendChild(paragraph);
+    this.paragraph.textContent = loadingTips[randomTipIndex];
+    this.paragraph.style.position = "absolute";
+    this.paragraph.style.width = "auto";
+    this.paragraph.style.textAlign = "justify";
+    this.paragraph.style.bottom = "-10px";
+    this.paragraph.style.left = "10px";
+    this.paragraph.style.fontSize = "20pt";
+    this.paragraph.style.color = "#fff";
+    this.paragraph.style.border = "2px solid #fff"; 
+    this.paragraph.style.borderRadius = "1px";
+    this.paragraph.style.padding = "10px 15px";
+    this.paragraph.style.background = "rgba(0,0,0,0.3)"; 
+    loadingScreen.appendChild(this.paragraph);
 
     this.loadingIcon = document.createElement("img");
     this.loadingIcon.src = "./assets/loadingIcon/loadingIcon.gif";
@@ -85,6 +87,15 @@ export class LoadingScreen {
     loadingScreen.appendChild(this.continueButton);
 
     this.el = loadingScreen;
+
+    loadingScreen.style.pointerEvents = "all";
+    loadingScreen.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+
+    loadingScreen.addEventListener("mousedown", (e) => {
+      e.stopPropagation();
+    });
   }
 
   show() {
@@ -109,6 +120,8 @@ async hide(duration = 350) {
   showContinueButton() {
     this.continueButton.style.display = "block";
     this.loadingIcon.style.display = "none";
+    this.paragraph.style.display = "none";
+    //muteAudio(false, activeListener);
     this.continueButton.addEventListener("click", () => {
       this.hide();
     });

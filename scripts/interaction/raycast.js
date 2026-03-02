@@ -9,6 +9,10 @@ let hoveredObject = null;
 let tooltipActive = false;
 let disableTooltip = false;
 
+export function setDisableTooltip(value) {
+  disableTooltip = value;
+}
+
 let defaultTooltipXPos = 145;
 let defaultTooltipYPos = 35;
 
@@ -65,7 +69,7 @@ function updateMouse(event) {
   tooltip.style.height = "fit-content";
   tooltip.style.background = "rgba(103, 159, 202, 0.9)";
   tooltip.style.outline = "solid 2px cyan";
-  tooltip.style.zIndex = "10000";
+  tooltip.style.zIndex = "9991";
   document.body.appendChild(tooltip);
   tooltip.style.display = "none";
 
@@ -95,10 +99,10 @@ function updateMouse(event) {
   panel.style.width = "60vw";
   panel.style.height = "85vh";
   panel.style.transform = "translate(-50%, -50%)";
-  panel.style.background = "rgba(103, 159, 202, 0.4)";
+  panel.style.background = "rgba(103, 159, 202, 0.9)";
   panel.style.outline = "solid 2px cyan";
   panel.style.color = "#fff";
-  panel.style.zIndex = "9999";
+  panel.style.zIndex = "9990";
   panel.style.padding = "20px";
   panel.style.boxSizing = "border-box";
   panel.style.overflowY = "auto";

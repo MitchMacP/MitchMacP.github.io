@@ -11,7 +11,7 @@ import { PlayerUI, playerUIActive, controlsUIState } from "./controls/playerUI.j
 import { LoadingScreen } from "./UI/loadingScreen.js";
 import { setCursor } from "./controls/cursor.js";
 import { isMobile } from "./mobileDetector.js";
-import {sounds, loadSound, loadSoundGroup, playSound, muteAudio, setAmbienceVolume, setAudioListener} from "./Audio/audioManager.js"
+import {loadSound, loadSoundGroup, playSound, muteAudio, setAmbienceVolume, setAudioListener} from "./Audio/audioManager.js"
 import * as THREE from "three";
 
 // --- Redirect if mobile --- //
