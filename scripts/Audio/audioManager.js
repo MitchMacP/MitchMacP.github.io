@@ -2,9 +2,14 @@ import * as THREE from "three";
 
 const audioLoader = new THREE.AudioLoader();
 export const sounds = {}; 
+export let activeListener = null;
+
+export function setAudioListener(listener) {
+    activeListener = listener;
+}
 
 export function loadSound(name, path, listener, volume = 1, loop = false) {
-    const sound = new THREE.Audio(listener);
+    const sound = new THREE.Audio(activeListener);
     
     audioLoader.load(path, (buffer) => {
         sound.setBuffer(buffer);
@@ -19,7 +24,7 @@ export function loadSoundGroup(name, paths, listener, volume = 1) {
     sounds[name] = []; 
 
     paths.forEach(path => {
-        const sound = new THREE.Audio(listener);
+        const sound = new THREE.Audio(activeListener);
         audioLoader.load(path, (buffer) => {
             sound.setBuffer(buffer);
             sound.setVolume(volume);
@@ -39,6 +44,13 @@ export function playSound(name) {
     } else {
         if (target.isPlaying) target.stop();
         target.play();
+    }
+}
+
+export function setAmbienceVolume(volumeLevel) {
+    const ambient = sounds['shipAmbience'];
+    if (ambient) {
+        ambient.setVolume(volumeLevel);
     }
 }
 

@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { tooltipState } from "../tooltipState.js";
 import { createGallery } from "./screenshotGallery.js";
 import { galleryPaths } from "./galleryImageOptions.js";
+import { playSound, loadSoundGroup, activeListener, loadSound } from "../Audio/audioManager.js";
 
 export let panelActive = false;
 let hoveredObject = null;
@@ -20,6 +21,19 @@ export function initRaycast(camera, objects, renderer) {
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
   let currentSkillIndex = 0;
+  let hasPlayedHover = false;
+
+  loadSoundGroup('switch', [
+  './assets/audioFiles/uiSwitch01.wav',
+  './assets/audioFiles/uiSwitch02.wav',
+  './assets/audioFiles/uiSwitch03.wav'
+  ], activeListener, 0.5);
+  loadSound('uiSkillSwitch', './assets/audioFiles/uiSkillSwitch.wav', activeListener, 1, false);
+  loadSound('formSent', './assets/audioFiles/contactMessageSent.wav', activeListener, 1, false);
+  loadSound('uiHover', './assets/audioFiles/uiHover.wav', activeListener, 0.1, false);
+  loadSound('', './assets/audioFiles/uiHover.wav', activeListener, 0.1, false);
+
+ 
 
 function updateMouse(event) {
   const rect = renderer.domElement.getBoundingClientRect();
@@ -32,9 +46,14 @@ function updateMouse(event) {
 }
 
   function onHoverEnter(object) {
+    if (!hasPlayedHover && !panelActive) {
+      playSound("uiHover");
+      hasPlayedHover = true;
+    }
   }
 
   function onHoverExit(object) {
+    hasPlayedHover = false;
   }
 
   let currentMouseSide = mouseSide.LEFT;
@@ -295,6 +314,7 @@ function updateMouse(event) {
             if (response.ok) {
               contactForm.reset(); 
               closePanel();
+              playSound("formSent");
             } else {
               const data = await response.json();
               status.textContent = data.error || "Oops! Something went wrong.";
@@ -442,10 +462,10 @@ function updateMouse(event) {
       }
 
       const skillItems = tooltip.querySelectorAll(".tooltip_skills_list");
-
+      playSound("uiSkillSwitch");
       skillItems.forEach((item, index) => {
         const skillName = hoveredObject.userData.skillTree[index];
-
+        
         if (index === currentSkillIndex) {
           item.textContent = ">> " + skillName + " <<";
         } else {
@@ -481,23 +501,26 @@ function updateMouse(event) {
         case "Escape":
           closePanel();
           break;
-        case "1":
-          switchTabs("general");
-          content.querySelectorAll(".tab button").forEach(b => {
-            b.classList.toggle("active", b.getAttribute("tab-data") === "general");
-          });
+          case "1":
+            switchTabs("general");
+            content.querySelectorAll(".tab button").forEach(b => {
+              b.classList.toggle("active", b.getAttribute("tab-data") === "general");
+            });
+            playSound("switch");
           break;
         case "2":
           switchTabs("screenshots");
           content.querySelectorAll(".tab button").forEach(b => {
             b.classList.toggle("active", b.getAttribute("tab-data") === "screenshots");
           });
+          playSound("switch");
           break;
         case "3":
           switchTabs("extras");
           content.querySelectorAll(".tab button").forEach(b => {
             b.classList.toggle("active", b.getAttribute("tab-data") === "extras");
           });
+          playSound("switch");
           break;
       }
     }

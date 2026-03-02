@@ -11,18 +11,20 @@ import { PlayerUI, playerUIActive, controlsUIState } from "./controls/playerUI.j
 import { LoadingScreen } from "./UI/loadingScreen.js";
 import { setCursor } from "./controls/cursor.js";
 import { isMobile } from "./mobileDetector.js";
-import {sounds, loadSound, loadSoundGroup, playSound, muteAudio} from "./Audio/audioManager.js"
+import {sounds, loadSound, loadSoundGroup, playSound, muteAudio, setAmbienceVolume, setAudioListener} from "./Audio/audioManager.js"
 import * as THREE from "three";
 
 // --- Redirect if mobile --- //
 if (isMobile()) {
-  window.location.href = "https://macpherson277.wixsite.com/home"; 
+  window.location.href = "https://macpherson277.wixsite.com/home"; z
 } 
 else {
   // --- Renderer --- //
   const listener = new THREE.AudioListener();
   const camera = createCamera();
   camera.add(listener);
+  
+  setAudioListener(listener);
   
   // --- Loading Screen --- //
   const loading = new LoadingScreen();
@@ -31,6 +33,11 @@ else {
   loadSound('uiSelect', './assets/audioFiles/uiSelect.wav', listener, 1, false);
   loadSound('uiClose', './assets/audioFiles/uiClose.wav', listener, 1, false);
   loadSound('shipAmbience', './assets/audioFiles/shipAmbience.wav', listener, 1, true);
+  loadSoundGroup('cameraTurn', [
+    './assets/audioFiles/cameraTurn01.wav',
+    './assets/audioFiles/cameraTurn02.wav',
+    './assets/audioFiles/cameraTurn03.wav'
+  ], listener, 0.5);
   let isMuted = false;
 
   
@@ -130,9 +137,11 @@ else {
       switch (move) {
         case "left":
           playerUI.animateControlsImage(controlsUIState.A_PRESSED);
+          playSound("cameraTurn");
           break;
         case "right":
           playerUI.animateControlsImage(controlsUIState.D_PRESSED);
+          playSound("cameraTurn");
           break;
       }
     }  
@@ -151,18 +160,18 @@ if (!panelActive) {
     setActive(true);
     playerUI.show();
     
-    // 2. ONLY PLAY IF NOT ALREADY PLAYED
     if (!uiSoundPlayed) {
       playSound("uiClose");
-      uiSoundPlayed = true; // Lock it so it doesn't play again next frame
+      setAmbienceVolume(1);
+      uiSoundPlayed = true; 
     }
   } else {
-    // 3. RESET WHEN PANEL IS ACTIVE AGAIN
     if (playerUIActive) {
         setActive(false);
         playSound("uiSelect");
+        setAmbienceVolume(0);
         playerUI.hide();
-        uiSoundPlayed = false; // Reset the lock for next time the UI shows
+        uiSoundPlayed = false; 
     }
   }  
   
