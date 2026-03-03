@@ -22,7 +22,8 @@ export const panels = {
     description: "Game made during the 2026 Global Game Jam."
       + "\n You are a bouncer at a masquerade ball. Use your criteria list to determine who to let into the party and who to turn away. Make sure you don't turn away the VIPs!",
     smallDescription: "Global Game Jam entry for 2026.",
-    iframeUrl: "https://www.youtube.com/embed/tgbNymZ7vqY",
+    iframeUrl: "https://www.youtube.com/embed/OmC5hTPLmF4",
+    galleryPath: galleryPaths.PAPERFACE,
     creationDate: "February, 2026",
     downloadLink: "https://forestlf.itch.io/paperface",
   },
@@ -31,7 +32,7 @@ export const panels = {
     description: "Byron the Bin is an Arduino-powered bin designed to \"eat\" trash. Using an ultrasonic sensor, Byron detect when someone approaches and automatically opens his lid"
     + " with a servo motor.",
     smallDescription: "Arduino operated bin.",
-    iframeUrl: "https://www.youtube.com/embed/vatC9B5_HpU",
+    iframeUrl: "https://drive.google.com/file/d/1CTV-DfrjImUqJwSesAKy9ganDZ1es5IF/preview",
     creationDate: "May, 2023"
   },
   local58ReDesign: {
@@ -46,7 +47,7 @@ export const panels = {
     title: "Interning At Valdivian",
     description: "This is a short gravity puzzle game. Instead of traditional jumping, players switch gravity to navigate challenging levels, avoiding obstacles and hazards along the way",
     smallDescription: "Gravity-based puzzle game.",
-    iframeUrl: "https://www.youtube.com/embed/Naaq5xNNFOA",
+    iframeUrl: "https://www.youtube.com/embed/peuUUqYx7l8",
     creationDate: "January, 2023", 
     downloadLink: "https://mmac0.itch.io/interning-at-valdivian",
     galleryPath: galleryPaths.INTERNINGATVALDIVIAN,
@@ -55,7 +56,7 @@ export const panels = {
     title: "Wildfire",
     description: "This game was created for the 2025 V&A Game Jam in dundee.",
     smallDescription: "Game created for the V&A Game Jam in Dundee",
-    iframeUrl: "https://www.youtube.com/embed/Naaq5xNNFOA",
+    iframeUrl: "https://www.youtube.com/embed/Z_Wub8QPa44",
     creationDate: "March, 2025",
     downloadLink: "https://forestlf.itch.io/wildfire",
     galleryPath: galleryPaths.WILFIRE,

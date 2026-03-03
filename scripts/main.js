@@ -14,6 +14,10 @@ import { isMobile } from "./mobileDetector.js";
 import {loadSound, loadSoundGroup, playSound, muteAudio, setAmbienceVolume, setAudioListener} from "./Audio/audioManager.js"
 import * as THREE from "three";
 
+/* Yes I'm aware this code is horrible, I'm going fix it later */
+/* And if you're rockstar, hello! */
+
+
 // --- Redirect if mobile --- //
 if (isMobile()) {
   window.location.href = "https://macpherson277.wixsite.com/home"; z
@@ -39,7 +43,6 @@ else {
     './assets/audioFiles/cameraTurn03.wav'
   ], listener, 0.5);
   let isMuted = false;
-
   
   const renderer = createRenderer(camera, true);
   const scene = createScene();
@@ -103,7 +106,14 @@ else {
     muteAudio(isMuted, listener);
   });
   
-  
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "m" || e.key === "M") {
+      isMuted = !isMuted;
+      playerUI.switchControl(isMuted);
+      muteAudio(isMuted, listener);
+    }
+  });
+
   // --- Particle System --- //
   const particleSystem = new ParticleSystem(scene, {
     spawnRate: 3,       

@@ -111,6 +111,14 @@ export class PlayerUI {
     this.bottomRightImage.style.backgroundImage = `url(./assets/PlayerUI/ControlsRight.png)`;
   });
 
+  // --- Stops CV from being pressed when pressing turn buttons --- //
+  this.bottomLeftImage.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+  this.bottomLeftImage.addEventListener("hover", (e) => {
+    e.stopPropagation();
+  });
+
     this.audioToggleButton = document.createElement("button");
     if (controlRightSrc) {
       this.audioToggleButton.style.width = "256px";
@@ -170,6 +178,7 @@ switchControl(isMuted) {
     this.audioToggleButton.style.backgroundImage = `url(./assets/audioToggle/unmuted.png)`;
   }
 }
+
 
 
 

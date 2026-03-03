@@ -6,7 +6,7 @@ export const galleryPaths = {
 
     ],
     PAPERFACE: [
-
+        './assets/projectScreenshots/paperFace/img01.png',
     ],
     BYRONTHEBIN: [
 

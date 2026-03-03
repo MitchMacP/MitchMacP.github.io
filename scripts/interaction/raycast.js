@@ -296,6 +296,7 @@ function updateMouse(event) {
         btn.classList.add("active");
 
         const tabName = btn.getAttribute('tab-data');
+        playSound("switch");
         switchTabs(tabName);
       });
     });

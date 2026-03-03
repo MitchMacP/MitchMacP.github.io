@@ -559,7 +559,7 @@ function loadUnityModel(modelPath) {
               'I have been using the Unity game engine for the past 10 years. I\'m experienced using its audio, animation, timeline, UI systems, and more, to create game projects.', 
               'I have used both Unity’s built-in API and Wwise to implement audio across multiple types of games, assisting both non-audio team members and fellow sound designers.',
               'I spent my internship at Build A Rocket Boy playtesting and reporting bugs for their game, EVERYWHERE. Additionally, I worked as a student demonstrator, debugging students’ game projects.',
-              '', 
+              'I have vast experience working with teams, whether its game related jobs or not. I believe I have good and clear communication skills.', 
             ],
             creationDate: "Feb, 2026",
             tooltipState: tooltipState.SKILLS,
@@ -641,11 +641,11 @@ function loadUMLPosterBox({ geometry, position }) {
     skillTree: ['C#', 'Java', 'Web Development', 'Databases', 'Python'],
     skillDescription: 
     [
-      'I have years of experience using C# for .NET projects and Unity development. This has included game jams, group projects, and personal projects', 
+      'I have years of experience using C# for  Unity development and .NET projects. This has included game jams, group projects, and personal projects', 
       'I have strong experience with Java, including developing software modelling diagrams to implement applications, as well as creating professional-level programmes. I am currently developing a game-based job tracker application.',
       'I have good knowledge of JavaScript, PHP, HTML, and CSS, creating quality web experiences. I’m continuously learning new skills in web development to help users have an enjoyable experience.',
       'I have experience using SQL in platforms such as PHPMyAdmin and linux server environments.',
-      'I have used python for creating local web servers, and terminal apps.',
+      'I have used python for creating local web servers, and terminal applications.',
     ],
     creationDate: "Feb, 2026",
     tooltipState: tooltipState.SKILLS,
