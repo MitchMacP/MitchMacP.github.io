@@ -45,6 +45,8 @@ export function playSound(name) {
         if (target.isPlaying) target.stop();
         target.play();
     }
+    console.log(target.buffer);
+
 }
 
 export function setAmbienceVolume(volumeLevel) {

@@ -11,7 +11,7 @@ import { PlayerUI, playerUIActive, controlsUIState } from "./controls/playerUI.j
 import { LoadingScreen } from "./UI/loadingScreen.js";
 import { setCursor } from "./controls/cursor.js";
 import { isMobile } from "./mobileDetector.js";
-import {loadSound, loadSoundGroup, playSound, muteAudio, setAmbienceVolume, setAudioListener} from "./Audio/audioManager.js"
+import {sounds, loadSound, loadSoundGroup, playSound, muteAudio, setAmbienceVolume, setAudioListener} from "./Audio/audioManager.js"
 import * as THREE from "three";
 
 /* Yes I'm aware this code is horrible, I'm going fix it later */
@@ -74,14 +74,26 @@ else {
   function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
+
+  loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
+    console.log(`Started loading: ${url} (Item ${itemsLoaded + 1} of ${itemsTotal})`);
+  };
+
+  loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
+    console.log(`Finished loading: ${url} (${itemsLoaded}/${itemsTotal} items total)`);
+  };
+
+  loadingManager.onError = (url) => {
+    console.error(`There was an error loading ${url}`);
+  };
+
   loadingManager.onLoad = async () => {
-    await wait(5000);
+    await wait(2500);
     //loading.hide();
     loading.showContinueButton();
     await wait(250);
     setActive(true);
     playerUI.show();
-    playSound("shipAmbience");
     console.log("Main environment loaded");
   };
   
@@ -128,6 +140,13 @@ else {
 
   function animate() {
     
+  const ambient = sounds['shipAmbience'];
+
+  if (ambient && !ambient.isPlaying) {
+    ambient.play();
+  }
+
+
     requestAnimationFrame(animate);
     
     const delta = clock.getDelta();
