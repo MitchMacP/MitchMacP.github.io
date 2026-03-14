@@ -233,6 +233,30 @@ function updateMouse(event) {
         </div>
         `;
         break;
+      case tooltipState.WELCOME:
+        html = `
+        <div id="welcome_container">
+          <h1>Hi, I'm Mitchell.</h1>
+          <br>
+          <p>A graduate sound design and current MSc computing student at Edinburgh Napier University. 
+          I have heavy experience working on game projects, including audio asset creation, audio implementation, 
+          general programming, and quality assurance.</p>
+          <br>
+          <a href="https://www.linkedin.com/in/mitchell-macpherson-04b917219/" target="_blank">
+            <button class="panel_button"><p class="tooltip_paragraph">LinkedIn [↗]</p></button>
+          </a>
+          <a href="https://mmac0.itch.io/" target="_blank">
+            <button class="panel_button"><p class="tooltip_paragraph">Itch.io [↗]</p></button>
+          </a>
+          <br>
+          <br>
+          <br>
+          <a href="./assets/cv/attribution.pdf" target="_blank">
+            <p class="tooltip_paragraph">Website Attribution</p>
+          </a>
+        </div>
+        `;
+        break;
 
       default:
         html = `<h1>ERROR: Incorrect State Assigned</h1>`;
@@ -339,7 +363,6 @@ function updateMouse(event) {
     let html;
     tooltip.style.width = "25vw";
 
-
     switch (state) {
       case tooltipState.PROJECT:
         html = `
@@ -366,7 +389,7 @@ function updateMouse(event) {
         html = `
         <div class="tooltip_skills_div">
           <div class="tooltip_skills_left">
-            <h1 class="tooltip_skills_h1">Skills</h1>
+            <h1 class="tooltip_skills_h1">${data.title}</h1>
             <ul id="skillsList">
               ${data.skillTree 
                 ? data.skillTree.map((skill, index) =>
@@ -374,6 +397,7 @@ function updateMouse(event) {
                   ).join('')
                 : ""}
             </ul>
+            <p class="tooltip_skills_click">[CLICK TO CYCLE]</p>
         </div>
         <div class="tooltip_skills_right">
           <h1 class="tooltip_skills_title">${data.skillTree[currentSkillIndex]}</h1>
@@ -395,6 +419,11 @@ function updateMouse(event) {
         <div class="tooltip_inner_div">
           <h1 class="tooltip_header">${data.title}</h1>
         </div>`;
+        break;
+      case tooltipState.WELCOME:
+        html = `
+        <h1 class="tooltip_header">Welcome!</h1>
+        `;
         break;
     }
 

@@ -56,50 +56,7 @@ function createBox({ name, texture, position, geometry, rotationY = 0, rotationZ
   return box;
 }
 
-function createCartridge({ name, texture, position = [0, 0, 0], rotationY = 0, panelInfo }) {
-  /*
-  let material;
-  if (texture) {
-    const tex = loader.load(texture);
-    tex.magFilter = THREE.NearestFilter;
-    tex.minFilter = THREE.NearestFilter;
-    tex.generateMipmaps = false;
-    material = new THREE.MeshStandardMaterial({
-      map: tex,
-      color: 0xffffff,
-      flatShading: true
-    });
-  } else {
-    material = new THREE.MeshStandardMaterial({
-      color: 0x888888,
-      flatShading: true
-    });
-  }
-
-  const bodyGeometry = new THREE.BoxGeometry(0.05, 0.05, 0.05);
-  const cartridgeMesh = new THREE.Mesh(bodyGeometry, material);
-
-  cartridgeMesh.name = name;
-  cartridgeMesh.position.set(...position);
-  cartridgeMesh.rotation.y = rotationY;
-
-  cartridgeMesh.userData = {
-    clickable: true,
-    title: panelInfo?.title,
-    description: panelInfo?.description,
-    imageUrl: panelInfo?.imageUrl,
-    iframeUrl: panelInfo?.iframeUrl,
-    downloadLink: panelInfo?.downloadLink,
-    customHtml: panelInfo?.customHtml,
-    creationDate: panelInfo?.creationDate, 
-    galleryPath: panelInfo?.galleryPath,
-    smallDescription: panelInfo?.smallDescription,
-  };
-
-  return cartridgeMesh;
-  */
-
-  
+function createCartridge({ name, texture, position = [0, 0, 0], rotationY = 0, panelInfo }) {  
     const container = new THREE.Group();
     const scaleValue = 0.00025;
 
@@ -257,6 +214,14 @@ function createProjectsShelf() {
     panelInfo: panels.local58ReDesign,
   });
   displayObj.add(local58Cartridge);
+  const showreelCartridge = createCartridge({
+    name: "ShowreelCartridge",
+    texture: "./assets/cartridge.png",
+    position: [-0.1, 0.015, 0.2],
+    rotationY: -7.9,
+    panelInfo: panels.showreel,
+  });
+  displayObj.add(showreelCartridge);
   const interningAtValdivianCartridge = createCartridge({
     name: "Local58Cartridge",
     texture: "./assets/cartridge.png",
@@ -292,7 +257,7 @@ function createShowreelHologram({ name, texture, position }) {
     side: THREE.DoubleSide  
   });
 
-  const geometry = new THREE.PlaneGeometry(0.3, 0.35);
+  const geometry = new THREE.PlaneGeometry(0.23, 0.28);
 
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = name;
@@ -333,6 +298,7 @@ function createConsole({ name, texture, position, rotationY = 0, panelInfo }) {
 
   hoverMesh.userData = {
     clickable: true,
+    tooltipState: tooltipState.WELCOME,
     title: panelInfo?.title,
     description: panelInfo?.description,
     imageUrl: panelInfo?.imageUrl,
@@ -348,8 +314,8 @@ function createConsole({ name, texture, position, rotationY = 0, panelInfo }) {
 
   const showreelHologram = createShowreelHologram({
     name: "Showreel_Hologram",
-    texture: "./assets/showreelHologram.png",
-    position: [0, 0.23, -0.01], 
+    texture: "./assets/consoleHologram.png",
+    position: [0, 0.23, 0], 
   });
 
   showreelHologram.userData.baseY = showreelHologram.position.y;

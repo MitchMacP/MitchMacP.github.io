@@ -1,4 +1,5 @@
 export const tooltipState = {
+  WELCOME: "WELCOME",
   PROJECT: "PROJECT",
   CV: "CV",
   SKILLS: "SKILLS",
