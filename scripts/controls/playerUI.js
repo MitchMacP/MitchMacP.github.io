@@ -118,6 +118,12 @@ export class PlayerUI {
   this.bottomLeftImage.addEventListener("hover", (e) => {
     e.stopPropagation();
   });
+  this.bottomRightImage.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+  this.bottomRightImage.addEventListener("hover", (e) => {
+    e.stopPropagation();
+  });
 
     this.audioToggleButton = document.createElement("button");
     if (controlRightSrc) {

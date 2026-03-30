@@ -36,7 +36,7 @@ else {
   // --- Initialise Audio --- //
   loadSound('uiSelect', './assets/audioFiles/uiSelect.wav', listener, 1, false);
   loadSound('uiClose', './assets/audioFiles/uiClose.wav', listener, 1, false);
-  loadSound('shipAmbience', './assets/audioFiles/shipAmbience.wav', listener, 1, true);
+  loadSound('shipAmbience', './assets/audioFiles/shipAmbience.mp3', listener, 1, true);
   loadSoundGroup('cameraTurn', [
     './assets/audioFiles/cameraTurn01.wav',
     './assets/audioFiles/cameraTurn02.wav',

@@ -101,7 +101,7 @@ function createCartridge({ name, texture, position = [0, 0, 0], rotationY = 0, p
   
 }
 
-function createShelf(name, position) {
+function createShelf(name, position, size) {
 
   const tex = loader.load("./assets/wood.png");
 
@@ -111,7 +111,7 @@ function createShelf(name, position) {
     flatShading: true
   });
 
-  const geometry = new THREE.BoxGeometry(0.1, 0.025, 0.2);
+  const geometry = new THREE.BoxGeometry(...size);
   const shelf = new THREE.Mesh(geometry, material);
 
   shelf.name = name;
@@ -169,16 +169,13 @@ function createProjectsShelf() {
   projectsWall.add(displayObj);
 
   // --- Shelves --- //
-  const leftShelf = createShelf("leftShelf", [-0.1, -0.035, -0.15]);
+  const leftShelf = createShelf("leftShelf", [-0.1, -0.035, -0.15], [0.1, 0.025, 0.2]);
   displayObj.add(leftShelf);
 
-  const rightShelf = createShelf("leftShelf", [-0.1, -0.035, 0.15]);
+  const rightShelf = createShelf("leftShelf", [-0.1, -0.035, 0.15], [0.1, 0.025, 0.2]);
   displayObj.add(rightShelf);
 
-  const leftBottomShelf = createShelf("leftShelf", [-0.1, -0.23, -0.15]);
-  displayObj.add(leftBottomShelf);
-
-  const rightBottomShelf = createShelf("leftShelf", [-0.1, -0.23, 0.15]);
+  const rightBottomShelf = createShelf("leftShelf", [-0.1, -0.23, 0], [0.1, 0.025, 0.3]);
   displayObj.add(rightBottomShelf);
 
   // --- Cartridges --- //
@@ -193,19 +190,11 @@ function createProjectsShelf() {
   const paperFaceCartridge = createCartridge({
     name: "PaperFaceCartridge",
     texture: "./assets/cartridge.png",
-    position: [-0.1, -0.18, 0.2],
+    position: [-0.1, -0.18, 0.1],
     rotationY: -7.9,
     panelInfo: panels.paperFace,
   });
   displayObj.add(paperFaceCartridge);
-  const byronTheBinCartridge = createCartridge({
-    name: "PaperFaceCartridge",
-    texture: "./assets/cartridge.png",
-    position: [-0.1, -0.18, -0.2],
-    rotationY: -7.9,
-    panelInfo: panels.byronTheBin,
-  });
-  displayObj.add(byronTheBinCartridge);
   const local58Cartridge = createCartridge({
     name: "Local58Cartridge",
     texture: "./assets/cartridge.png",
@@ -226,18 +215,26 @@ function createProjectsShelf() {
     name: "Local58Cartridge",
     texture: "./assets/cartridge.png",
     rotationY: -7.9,
-    position: [-0.1, -0.18, -0.1],
+    position: [-0.1, 0.015, -0.1],
     panelInfo: panels.interningAtValdivian,
   });
   displayObj.add(interningAtValdivianCartridge);
   const wildfireCartridge = createCartridge({
     name: "WildfireCartridge",
     texture: "./assets/cartridge.png",
-    position: [-0.1, -0.18, 0.1],
+    position: [-0.1, -0.18, 0],
     rotationY: -7.9,
     panelInfo: panels.wildfire,
   });
   displayObj.add(wildfireCartridge);
+  const lastLaughShowdownCartridge = createCartridge({
+    name: "Last Laugh Showdown",
+    texture: "./assets/cartridge.png",
+    position: [-0.1, -0.18, -0.1],
+    rotationY: -7.9,
+    panelInfo: panels.lastLaughShowdown,
+  });
+  displayObj.add(lastLaughShowdownCartridge);
 
 
   return projectsWall;

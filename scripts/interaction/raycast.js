@@ -103,7 +103,6 @@ function updateMouse(event) {
   panel.style.outline = "solid 2px cyan";
   panel.style.color = "#fff";
   panel.style.zIndex = "9990";
-  panel.style.padding = "20px";
   panel.style.boxSizing = "border-box";
   panel.style.overflowY = "auto";
 
@@ -173,12 +172,14 @@ function updateMouse(event) {
           </p>
           
         ${data.iframeUrl ?
-            `<iframe 
-              id="youtubeFrame" 
-              src="${data.iframeUrl}?autoplay=1" 
-              style="width:60%; height:25vh; border: 2px solid cyan; margin-top: 20px;"
-              data-src="${data.iframeUrl}?autoplay=1">
-          </iframe>`
+            `
+            <iframe 
+                id="youtubeFrame" 
+                src="${data.iframeUrl}?autoplay=1" 
+                style="height: 30vh; aspect-ratio: 16 / 9; border: 2px solid cyan; margin-top: 20px;"
+                data-src="${data.iframeUrl}?autoplay=1">
+            </iframe>
+            `
             : ''
           }
         </div> 
@@ -239,20 +240,17 @@ function updateMouse(event) {
           <h1>Hi, I'm Mitchell.</h1>
           <br>
           <p>A graduate sound design and current MSc computing student at Edinburgh Napier University. 
-          I have heavy experience working on game projects, including audio asset creation, audio implementation, 
-          general programming, and quality assurance.</p>
+          I have heavy experience working on game projects, particularly in audio asset creation, audio implementation, 
+          general programming, and testing/debugging.</p>
           <br>
-          <a href="https://www.linkedin.com/in/mitchell-macpherson-04b917219/" target="_blank">
-            <button class="panel_button"><p class="tooltip_paragraph">LinkedIn [↗]</p></button>
-          </a>
-          <a href="https://mmac0.itch.io/" target="_blank">
-            <button class="panel_button"><p class="tooltip_paragraph">Itch.io [↗]</p></button>
-          </a>
+          <button class="panel_button" onclick=" window.open('https://www.linkedin.com/in/mitchell-macpherson-04b917219/','_blank')">LinkedIn [↗]</button>
+          <button class="panel_button" onclick=" window.open('https://mmac0.itch.io/','_blank')">Itch.io [↗]</button>
+
           <br>
           <br>
           <br>
-          <a href="./assets/cv/attribution.pdf" target="_blank">
-            <p class="tooltip_paragraph">Website Attribution</p>
+          <a class="website_attribution_hyperlink" href="./assets/cv/attribution.pdf" target="_blank">
+            <p class="website_attribution_hyperlink">Website Attribution</p>
           </a>
         </div>
         `;
@@ -451,7 +449,7 @@ function updateMouse(event) {
       if (state === tooltipState.SKILLS) {
         if (currentMouseSide == mouseSide.RIGHT) {
           defaultTooltipXPos = -75;
-          defaultTooltipYPos = -350;
+          defaultTooltipYPos = -400;
         } else {
           defaultTooltipXPos = 75;
           defaultTooltipYPos = -250;

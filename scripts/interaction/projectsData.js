@@ -15,25 +15,18 @@ export const panels = {
     + " This system dynamically adjusted the priority of sounds based on the player’s situational context.",
     smallDescription: "An adaptive audio system mod for Lethal Company.",
     iframeUrl: "https://www.youtube.com/embed/LyrI1rBP9qY",
-    creationDate: "March, 2025"
+    creationDate: "March, 2025",
+    galleryPath: galleryPaths.HONOURS,
   },
   paperFace: {
     title: "Paper Face",
     description: "Game made during the 2026 Global Game Jam."
       + "\n You are a bouncer at a masquerade ball. Use your criteria list to determine who to let into the party and who to turn away. Make sure you don't turn away the VIPs!",
     smallDescription: "Global Game Jam entry for 2026.",
-    iframeUrl: "https://www.youtube.com/embed/OmC5hTPLmF4",
+    iframeUrl: "https://www.youtube.com/embed/HcZMTQKKFk0",
     galleryPath: galleryPaths.PAPERFACE,
     creationDate: "February, 2026",
     downloadLink: "https://forestlf.itch.io/paperface",
-  },
-  byronTheBin: {
-    title: "Byron The Bin",
-    description: "Byron the Bin is an Arduino-powered bin designed to \"eat\" trash. Using an ultrasonic sensor, Byron detect when someone approaches and automatically opens his lid"
-    + " with a servo motor.",
-    smallDescription: "Arduino operated bin.",
-    iframeUrl: "https://drive.google.com/file/d/1CTV-DfrjImUqJwSesAKy9ganDZ1es5IF/preview",
-    creationDate: "May, 2023"
   },
   local58ReDesign: {
     title: "Local58 Re-sound Design",
@@ -56,9 +49,17 @@ export const panels = {
     title: "Wildfire",
     description: "This game was created for the 2025 V&A Game Jam in dundee.",
     smallDescription: "Game created for the V&A Game Jam in Dundee",
-    iframeUrl: "https://www.youtube.com/embed/Z_Wub8QPa44",
+    iframeUrl: "https://www.youtube.com/embed/ZP2IiS8HQ6g",
     creationDate: "March, 2025",
     downloadLink: "https://forestlf.itch.io/wildfire",
     galleryPath: galleryPaths.WILFIRE,
+  },
+  lastLaughShowdown: {
+    title: "Last Laugh Showdown",
+    description: "Last Laugh Showdown is a slapstick 1v1 fighting game created during the 2024 Global Game Jam in Edinburgh."
+    + "<br><br>I handled all sound design, audio implementation, and music implementation, creating every sound and integrating the full audio experience to match the game’s over-the-top energy.",
+    smallDescription: "Global Game entry for 2024",
+    iframeUrl: "https://www.youtube.com/embed/Z_Wub8QPa44",
+    creationDate: "January, 2024",
   },
 };

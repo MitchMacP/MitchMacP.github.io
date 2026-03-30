@@ -122,6 +122,20 @@ canvas {
   text-align: justify;
 }
 
+.website_attribution_hyperlink {
+  color: white;
+  font-size: 15pt;
+  margin: 5pt;
+  font-family: "VT_Font";
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.website_attribution_hyperlink:hover {
+  text-decoration: underline;
+  color: white;
+}
+
 /* --- Panel Contact Form --- */
 .panel_contact_form {
   display: flex; 

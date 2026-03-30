@@ -3,13 +3,11 @@ export const galleryPaths = {
         
     ],
     HONOURS: [
-
+        './assets/projectScreenshots/honours/img01.png',
+        './assets/projectScreenshots/honours/img02.png',
     ],
     PAPERFACE: [
         './assets/projectScreenshots/paperFace/img01.png',
-    ],
-    BYRONTHEBIN: [
-
     ],
     LOCAL58: [
 
