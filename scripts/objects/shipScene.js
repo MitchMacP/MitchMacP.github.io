@@ -507,8 +507,6 @@ function loadUnityModel(modelPath) {
     createShield(modelPath).then((unity) => {
         const scaleValue = 0.0007;
         unity.scale.set(scaleValue, scaleValue, scaleValue);
-        //unity.rotation.z = Math.PI / 6;
-        //unity.rotation.z = Math.PI / 12;
         unity.rotation.y = Math.PI / -2;
         unity.position.set(-0.52, -0.35, 0.65);
 
@@ -521,7 +519,7 @@ function loadUnityModel(modelPath) {
             [
               'I have been using the Unity game engine for the past 10 years. I\'m experienced using its audio, animation, timeline, UI systems, and more, to create game projects.', 
               'I have used both Unity’s built-in API and Wwise to implement audio across multiple types of games, assisting both non-audio team members and fellow sound designers.',
-              'I spent my internship at Build A Rocket Boy playtesting and reporting bugs for their game, EVERYWHERE. Additionally, I worked as a student demonstrator, debugging students’ game projects.',
+              'I spent my internship at Build A Rocket Boy playtesting and reporting bugs for their game, EVERYWHERE. Additionally, I worked as a student demonstrator debugging students’ game projects.',
               'I have vast experience working with teams, whether its game related jobs or not. I believe I have good and clear communication skills.', 
             ],
             creationDate: "Feb, 2026",

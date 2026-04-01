@@ -23,5 +23,10 @@ export const galleryPaths = {
         './assets/projectScreenshots/wildfire/img02.png',
         './assets/projectScreenshots/wildfire/img03.png',
     ],
+    LASTLAUGHSHOWDOWN: [
+        './assets/projectScreenshots/lastLaughShowdown/img01.png',
+        './assets/projectScreenshots/lastLaughShowdown/img02.png',
+        './assets/projectScreenshots/lastLaughShowdown/img03.png',
+    ]
 };
 
