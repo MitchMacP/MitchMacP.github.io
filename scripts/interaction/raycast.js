@@ -104,7 +104,8 @@ function updateMouse(event) {
   panel.style.color = "#fff";
   panel.style.zIndex = "9990";
   panel.style.boxSizing = "border-box";
-  panel.style.overflowY = "auto";
+  panel.style.overflowY = "scroll";
+  panel.style.scrollbarWidth = "none";
 
   backgroundPanel.appendChild(panel);
 
@@ -139,14 +140,15 @@ function updateMouse(event) {
   const content = document.createElement("div");
   content.id = "panelContent";
   content.style.width = "100%";
-  content.style.height = "90%";
-  content.style.fontSize = "18px";
+  content.style.minHeight = "0";
+  content.style.height = "100%";
   content.style.overflowY = "auto";
+  content.style.fontSize = "18px";
 
   content.style.display = "flex";
   content.style.flexDirection = "column";
   content.style.alignItems = "center";
-  content.style.justifyContent = "center";
+  content.style.justifyContent = "flex-start";
   panel.appendChild(content);
 
   function createPanelTemplate(data) {
@@ -176,19 +178,19 @@ function updateMouse(event) {
             <iframe 
                 id="youtubeFrame" 
                 src="${data.iframeUrl}?autoplay=1" 
-                style="height: 30vh; aspect-ratio: 16 / 9; border: 2px solid cyan; margin-top: 20px;"
+                style="width: 60vh; aspect-ratio: 16 / 9; border: 2px solid cyan; "
                 data-src="${data.iframeUrl}?autoplay=1">
             </iframe>
             `
             : ''
           }
         </div> 
-        <div id="screenshots" class="tab-content" style="display: none; flex-direction: column; align-items: center;">
+        <div id="screenshots" class="tab-content">
           <h1 class="panel_h1">Additional Screenshots</h1>
           ${createGallery(data.galleryPath)}
         </div>
 
-        <div id="extras" class="tab-content" style="display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+        <div id="extras" class="tab-content">
           ${data.downloadLink ?
             `
             <h1 class="panel_h2">Download / View project page:</h1>
@@ -197,7 +199,7 @@ function updateMouse(event) {
                 Visit Itch.io Page
               </button>
             </a>`
-            : (data.customHtml || "<p class='panel_p' style='margin-top: 50px;'>No Extras</p>")
+            : (data.customHtml || "<p class='panel_p'>No Extras</p>")
           }
         </div>
       `;
@@ -216,18 +218,21 @@ function updateMouse(event) {
       case tooltipState.BLOG:
         panel.style.width = "30vw";
         panel.style.height = "35vh";
-        html = `<h1>Blog coming soon...</h1>`
+        html = `
+          <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+            <h1>Blog coming soon...</h1>
+          </div>`;
         break;
       case tooltipState.CONTACT:
         html = `
-        <div">
+        <div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
             <form class="panel_contact_form" id="contactForm">
               <h1>Send Message</h1>
               <input type="hidden" name="_subject" value="Website Contact Form">
               <label class="panel_contact_label">Your email:</label>
               <input type="email" name="email" required>
               <label class="panel_contact_label"> Your message:</label>
-              <textarea name="message" required></textarea>
+              <textarea name="message" required style="width: 400px; height: 200px; resize: none;"></textarea>
               <button class="panel_button" type="submit">Send</button>
             </form>
             <div id="contactStatus" style="margin-top: 10px; color: #fff;"></div>
@@ -239,9 +244,7 @@ function updateMouse(event) {
         <div id="welcome_container">
           <h1>Hi, I'm Mitchell.</h1>
           <br>
-          <p>A graduate sound design and current MSc computing student at Edinburgh Napier University. 
-          I have heavy experience working on game projects, particularly in audio asset creation, audio implementation, 
-          general programming, and testing/debugging.</p>
+          <p>A graduate in sound design and a current MSc Computing student at Edinburgh Napier University. I have heavy experience working on game projects, particularly in sound design, programming, and quality assurance.</p>
           <br>
           <button class="panel_button" onclick=" window.open('https://www.linkedin.com/in/mitchell-macpherson-04b917219/','_blank')">LinkedIn [↗]</button>
           <button class="panel_button" onclick=" window.open('https://mmac0.itch.io/','_blank')">Itch.io [↗]</button>
