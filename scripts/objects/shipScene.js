@@ -397,7 +397,7 @@ function loadContactBeaconModel(modelPath) {
 
         const computerPanelInfo = {
             clickable: true,
-            title: "Contact Beacon [SEND MESSAGE]",
+            title: "Contact Beacon <br>[SEND MESSAGE]",
             tooltipState: tooltipState.CONTACT,
         };
 
