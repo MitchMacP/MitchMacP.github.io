@@ -501,11 +501,14 @@ div.gallery-item div.desc {
 .tooltip_skills_h1 {
   color: white;
   font-weight: bold;
-  font-size: 30pt;
   text-align: center;
   padding-left: 30pt;
   margin: 0;
   margin-top: 15pt;
+}
+
+.tooltip_skills_h1, .tooltip_skills_title {
+  font-size: 30pt;
 }
 
 .tooltip_skills_click {
@@ -519,10 +522,12 @@ div.gallery-item div.desc {
 }
 
 .tooltip_skills_description {
-  width: 60%;
+  width: 70%;
   color: white;
   font-size: 15pt;
-  text-align: center;
+  text-align: justify;
+  text-align-last: center;
+  line-height: 1.5;
 }
 
 .tooltip_skills_list {

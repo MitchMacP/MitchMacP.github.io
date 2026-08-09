@@ -56,8 +56,7 @@ export const panels = {
   },
   lastLaughShowdown: {
     title: "Last Laugh Showdown",
-    description: "Last Laugh Showdown is a slapstick 1v1 fighting game created during the 2024 Global Game Jam in Edinburgh."
-    + "<br><br>I handled all sound design, audio implementation, and music implementation, creating every sound and integrating the full audio experience to match the game’s over-the-top energy.",
+    description: "Last Laugh Showdown is a slapstick 1v1 fighting game created during the 2024 Global Game Jam in Edinburgh. I handled all sound design, audio implementation, and music implementation, creating every sound and integrating the full audio experience to match the game’s over-the-top energy.",
     smallDescription: "Global Game entry for 2024",
     downloadLink: "https://stubbsuk69.itch.io/last-laugh-showdown",
     iframeUrl: "https://www.youtube.com/embed/PUXxplSHXsA",
