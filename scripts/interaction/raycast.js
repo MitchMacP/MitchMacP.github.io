@@ -248,7 +248,7 @@ function updateMouse(event) {
           <br>
           <button class="panel_button" onclick=" window.open('https://www.linkedin.com/in/mitchell-macpherson-04b917219/','_blank')">LinkedIn [↗]</button>
           <button class="panel_button" onclick=" window.open('https://mmac0.itch.io/','_blank')">Itch.io [↗]</button>
-
+          <button class="panel_button" onclick=" window.open('https://github.com/MitchMacP/','_blank')">GitHub [↗]</button>
           <br>
           <br>
           <br>
