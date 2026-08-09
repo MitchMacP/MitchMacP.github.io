@@ -125,8 +125,7 @@ canvas {
   width: 60vh
 }
 
-.panel_button,
-.panel_button:active,
+.panel_button, .panel_button:active,
 .panel_button:focus {
   padding: 15px 30px;
   font-size: 18px;
@@ -138,26 +137,62 @@ canvas {
   outline: solid 2px cyan;
 }
 
+.panel_button:hover {
+  background-color: rgba(0, 254, 254, 0.8);
+  outline: solid 2px rgb(0, 133, 133);
+  color: black;
+}
+
+/* --- Welcome Container --- */
+
 #welcome_container {
   margin: 10%;
 }
 
 #welcome_container h1 {
-  font-size: 40pt;
+  font-size: 7vh;
   margin-bottom: 0pt;
 }
 
 #welcome_container p {
-  font-size: 20pt;
+  font-size: 3vh;
   text-align: justify;
+  line-height: 1.5;
+}
+
+#welcome_container .profile_main_content {
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+}
+
+#welcome_container .main_text {
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+}
+
+#welcome_container .profile_buttons {
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 40%;
+  height: auto;
+}
+
+#welcome_container .panel_button {
+  margin-bottom: 10pt;
+  width: 25vh;
 }
 
 .website_attribution_hyperlink {
   color: white;
-  font-size: 15pt;
-  margin: 5pt;
+  font-size: 10pt;
   font-family: monoFont;
   text-decoration: none;
+  font-style: oblique;
 }
 
 .website_attribution_hyperlink:hover {

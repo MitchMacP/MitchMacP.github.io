@@ -42,6 +42,23 @@ export class PlayerUI {
       document.body.appendChild(this.root);
     }
 
+    // --- Preload Player UI images ---
+    const preloadImages = [
+      "./assets/PlayerUI/ControlsLeft.png",
+      "./assets/PlayerUI/ControlsLeftHover.png",
+      "./assets/PlayerUI/ControlsRight.png",
+      "./assets/PlayerUI/ControlsRightHover.png",
+      "./assets/PlayerUI/ControlsLeftPressed.png",
+      "./assets/PlayerUI/ControlsRightPressed.png",
+      "./assets/audioToggle/mute.png",
+      "./assets/audioToggle/unmuted.png"
+    ];
+
+    preloadImages.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+
     // --- Bottom-left image --- //
     this.bottomLeftImage = document.createElement("button");
     if (imgSrc) {

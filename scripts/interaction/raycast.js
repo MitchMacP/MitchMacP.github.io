@@ -124,7 +124,7 @@ function updateMouse(event) {
   }
 
   const closeBtn = document.createElement("button");
-  closeBtn.innerHTML = '<img style="width: 40pt;" src="./assets/xButton.png"/>';
+  closeBtn.innerHTML = '<img style="width: 7vh;" src="./assets/xButton.png"/>';
   closeBtn.style.position = "absolute";
   closeBtn.style.top = "15px";
   closeBtn.style.right = "10px";
@@ -243,13 +243,19 @@ function updateMouse(event) {
         html = `
         <div id="welcome_container">
           <h1>Hi, I'm Mitchell.</h1>
-          <br>
-          <p>A graduate in sound design and a current MSc Computing student at Edinburgh Napier University. I have heavy experience working on game projects, particularly in sound design, programming, and quality assurance.</p>
-          <br>
-          <button class="panel_button" onclick=" window.open('https://www.linkedin.com/in/mitchell-macpherson-04b917219/','_blank')">LinkedIn [↗]</button>
-          <button class="panel_button" onclick=" window.open('https://mmac0.itch.io/','_blank')">Itch.io [↗]</button>
-          <button class="panel_button" onclick=" window.open('https://github.com/MitchMacP/','_blank')">GitHub [↗]</button>
-          <br>
+          <div class="profile_main_content">
+            <div class="main_text">
+              <br>
+              <p>A graduate in sound design and a current MSc Computing student at Edinburgh Napier University. I have heavy experience working on game projects, particularly in sound design, programming, and quality assurance.</p>
+              <br>
+            </div>
+            <div class="profile_buttons">
+              <button class="panel_button" onclick=" window.open('https://www.linkedin.com/in/mitchell-macpherson-04b917219/','_blank')">LinkedIn [↗]</button>
+              <button class="panel_button" onclick=" window.open('https://mmac0.itch.io/','_blank')">Itch.io [↗]</button>
+              <button class="panel_button" onclick=" window.open('https://github.com/MitchMacP/','_blank')">GitHub [↗]</button>
+              <br>
+            </div>
+          </div>
           <br>
           <br>
           <a class="website_attribution_hyperlink" href="./assets/cv/attribution.pdf" target="_blank">
