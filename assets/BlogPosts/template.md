@@ -1,6 +1,6 @@
 ---
 title: "Post Title"
-date: "YYYY-MM-DD"
+date: "2026-01-01"
 description: "Short description of the post."
 tags: []
 ---
