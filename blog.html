@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/assets/Favicon/favicon.ico">
+  <link rel="stylesheet" href="blogStyle.css">
+  <title>Mitchell MacPherson - Blog</title>
+</head>
+<body>
+    <div class="page">
+        <div id="taskbar">
+            <img src="assets/BlogSprites/TaskBar.png" id="Taskbar_background" alt="Taskbar">
+            <img src="assets/BlogSprites/StartButton.png" id="StartButton" alt="Taskbar">
+        </div>
+        
+        <div id="blogWindow" class="window">
+            <img src="assets/BlogSprites/BlogWindow.png" alt="Window">
+            <img src="assets/BlogSprites/CloseMinimiseButton.png" alt="Window" style="height: 4%; width: 6%; right: 1%; top: 1.9%;">
+            <div class="titlebar">
+            </div>
+    
+            <div class="windowContent">
+                    <div id="BlogPostList" class="BlogPostList"></div>
+                <div id="BlogPost" class="BlogPostTextArea">No post loaded...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script type="module" src="scripts/blog.js"></script>
+</body>
+</html>

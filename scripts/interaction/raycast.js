@@ -215,14 +215,33 @@ function updateMouse(event) {
           </a>
         </div>`;
         break;
-      case tooltipState.BLOG:
-        panel.style.width = "30vw";
-        panel.style.height = "35vh";
-        html = `
-          <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-            <h1>Blog coming soon...</h1>
-          </div>`;
-        break;
+case tooltipState.BLOG:
+    panel.style.width = "min(90vw, 120vh)";
+    panel.style.height = "min(90vh, 75vw)";
+    panel.style.overflow = "hidden";
+
+    html = `
+        <div style="
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        ">
+            <iframe
+                id="Blog"
+                title="Personal Blog"
+                src="blog.html"
+                style="
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    display: block;
+                ">
+            </iframe>
+        </div>
+    `;
+    break;
       case tooltipState.CONTACT:
         html = `
         <div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
