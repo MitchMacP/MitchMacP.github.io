@@ -1,10 +1,10 @@
 async function loadPosts() {
-    const response = await fetch("/assets/BlogPosts/posts.json");
+    const response = await fetch("assets/BlogPosts/posts.json");
     const posts = await response.json();
 
     const loadedPosts = await Promise.all(
         posts.map(async (path) => {
-            const response = await fetch(`/assets/BlogPosts/${path}`);
+            const response = await fetch(`assets/BlogPosts/${path}`);
             const markdown = await response.text();
 
             const dateMatch = markdown.match(
