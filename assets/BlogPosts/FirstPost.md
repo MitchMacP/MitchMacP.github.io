@@ -1,6 +1,6 @@
 ---
 title: "First Blog Post!"
-date: "YYYY-MM-DD"
+date: "2026-08-10"
 description: "Short description of the post."
 tags: []
 ---
